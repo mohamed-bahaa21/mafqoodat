@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -116,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                     Toast.makeText(RegisterActivity.this, "Registered... \n"+user.getEmail(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegisterActivity.this, ProfileActivity.class));
+                    startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
                 } else {
                     // If sign in fails, display a message to the user.
                     progressDialog.dismiss();
