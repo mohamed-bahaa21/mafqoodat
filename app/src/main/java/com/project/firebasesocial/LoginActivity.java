@@ -259,6 +259,8 @@ public class LoginActivity extends AppCompatActivity {
                         hashMap.put("name", ""); // will add later (e.g. edit profile)
                         hashMap.put("phone", ""); // will add later (e.g. edit profile)
                         hashMap.put("image", ""); // will add later (e.g. edit profile)
+                        hashMap.put("cover", ""); // will add later (e.g. edit profile)
+
                         //firebase database instance
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         // path to store user data named "Users"
