@@ -1,7 +1,7 @@
-package com.project.firebasesocial;
+package com.project.firebasesocial.adapters;
 
 import android.content.Context;
-import android.view.Display;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.LayoutInflaterFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.firebasesocial.ChatActivity;
+import com.project.firebasesocial.R;
+import com.project.firebasesocial.models.ModelUsers;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -40,8 +42,8 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
-
         //Get Data
+        final String hisUid = usersList.get(i).getUid();
         String userImage = usersList.get(i).getimage();
         String userName = usersList.get(i).getName();
         final String userEmail = usersList.get(i).getemail();
@@ -62,8 +64,9 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(context, ""+userEmail, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("hisUid", hisUid);
+                context.startActivity(intent);
             }
         });
 

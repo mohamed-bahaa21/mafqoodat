@@ -1,4 +1,4 @@
-package com.project.firebasesocial;
+package com.project.firebasesocial.models;
 
 public class ModelUsers {
 
