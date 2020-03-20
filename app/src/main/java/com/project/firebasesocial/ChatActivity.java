@@ -306,7 +306,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void checkOnlineStatus(String status){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(myUid);
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("onlineStatus", status);
         //update value of onlineStatus of current user
@@ -314,7 +314,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void checkTypingStatus(String typing){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(myUid);
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("typingTo", typing);
         //update value of onlineStatus of current user
