@@ -1,6 +1,7 @@
 package com.project.firebasesocial.adapters;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.project.firebasesocial.ModelChat;
+import com.project.firebasesocial.models.ModelChat;
 import com.project.firebasesocial.R;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -29,48 +29,41 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
     List<ModelChat> chatList;
     String imageUrl;
 
-
     FirebaseUser fUser;
 
-    public AdapterChat(Context context, List<ModelChat> ChatList, String imageUrl){
+    public AdapterChat(Context context, List<ModelChat> chatList, String imageUrl){
         this.context = context;
         this.chatList = chatList;
         this.imageUrl = imageUrl;
     }
 
-
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         if(i== MSG_TYPE_RIGHT ){
-
             View view = LayoutInflater.from(context).inflate(R.layout.row_chat_right, viewGroup, false);
             return new MyHolder(view);
-        }else
-        {
-
+        }else{
             View view = LayoutInflater.from(context).inflate(R.layout.row_chat_left, viewGroup, false);
             return new MyHolder(view);
         }
-
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
          String message = chatList.get(i).getMessage();
-        String timeStamp = chatList.get(i).gettimestamp();
+        String timeStamp = chatList.get(i).getTimestamp();
 
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         cal.setTimeInMillis(Long.parseLong(timeStamp));
-        String dateTime = android.text.format.DateFormat.format("dd/mm/yyyy hh:mm ss", cal).toString();
+        String dateTime = DateFormat.format("dd/mm/yyyy hh:mm ss", cal).toString();
 
         myHolder.messageTv.setText(message);
         myHolder.timeTv.setText(dateTime);
+
         try{
             Picasso.get().load(imageUrl).into(myHolder.profileIv);
         }catch (Exception e){
-
         }
 
         if(i==chatList.size()-1){
@@ -93,11 +86,10 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
     @Override
     public int getItemViewType(int position) {
         fUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(chatList.get(position).getsender().equals(fUser.getUid())){
+        if(chatList.get(position).getSender().equals(fUser.getUid())){
             return  MSG_TYPE_RIGHT;
         }
-        else
-        {
+        else{
             return  MSG_TYPE_LEFT;
         }
     }
@@ -108,14 +100,13 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
         ImageView profileIv;
         TextView messageTv, timeTv, isSeenTv;
 
-
         public MyHolder(@NonNull View itemView) {
             super(itemView);
 
-
-            profileIv = itemView.findViewById(R.id.messageTv);
-            profileIv = itemView.findViewById(R.id.timeTv);
-            profileIv = itemView.findViewById(R.id.isSeenTv);
+            profileIv = itemView.findViewById(R.id.profileIV);
+            messageTv = itemView.findViewById(R.id.messageTv);
+            timeTv = itemView.findViewById(R.id.timeTv);
+            isSeenTv = itemView.findViewById(R.id.isSeenTv);
         }
 
     }
