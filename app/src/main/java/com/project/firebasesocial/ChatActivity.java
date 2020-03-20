@@ -75,7 +75,6 @@ public class ChatActivity extends AppCompatActivity {
     APIService apiService;
     boolean notify = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +99,7 @@ public class ChatActivity extends AppCompatActivity {
         apiService = Client.getRetrofit("https://fcm.googleapis.com/").create(APIService.class);
 
         Intent intent = getIntent();
-        hisUid =intent.getStringExtra("hisUid");
+        hisUid = intent.getStringExtra("hisUid");
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();

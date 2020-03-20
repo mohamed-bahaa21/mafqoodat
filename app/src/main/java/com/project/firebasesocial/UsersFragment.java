@@ -32,10 +32,6 @@ import com.project.firebasesocial.models.ModelUser;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class UsersFragment extends Fragment {
 
     RecyclerView recyclerView;
@@ -146,7 +142,6 @@ public class UsersFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
@@ -170,7 +165,12 @@ public class UsersFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //inflating menu
         inflater.inflate(R.menu.menu_main, menu);
+
+        //hide add-post from this fragment
+        menu.findItem(R.id.action_add_post).setVisible(false);
+
         //Searchview
         MenuItem item = menu.findItem(R.id.action_Search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
@@ -213,12 +213,13 @@ public class UsersFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.action_logout) {
             firebaseAuth.signOut();
             checkUserStatus();
         }
+
         return super.onOptionsItemSelected(item);
     }
 

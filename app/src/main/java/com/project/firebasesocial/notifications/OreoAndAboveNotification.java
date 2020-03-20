@@ -49,6 +49,7 @@ public class OreoAndAboveNotification extends ContextWrapper {
                                                   PendingIntent pIntent,
                                                   Uri soundUri,
                                                   String icon){
+
         return new Notification.Builder(getApplicationContext(), ID)
                 .setContentIntent(pIntent)
                 .setContentTitle(title)
