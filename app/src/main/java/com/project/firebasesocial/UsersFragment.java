@@ -126,7 +126,7 @@ public class UsersFragment extends Fragment {
                     if (!modelUser.getUid().equals(fUser.getUid())) {
                         //can find by by username and email
                         if (modelUser.getName().toLowerCase().contains(query.toLowerCase()) ||
-                        modelUser.getemail().toLowerCase().contains(query.toLowerCase())){
+                        modelUser.getEmail().toLowerCase().contains(query.toLowerCase())){
                             usersList.add(modelUser);
                         }
 
