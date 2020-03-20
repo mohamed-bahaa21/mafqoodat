@@ -43,9 +43,9 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
         //Get Data
         final String hisUid = usersList.get(i).getUid();
-        String userImage = usersList.get(i).getimage();
+        String userImage = usersList.get(i).getImage();
         String userName = usersList.get(i).getName();
-        final String userEmail = usersList.get(i).getemail();
+        final String userEmail = usersList.get(i).getEmail();
 
         //Set Data
         myHolder.mNameTv.setText(userName);
