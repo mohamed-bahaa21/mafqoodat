@@ -27,7 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.firebasesocial.adapters.AdapterUsers;
-import com.project.firebasesocial.models.ModelUsers;
+import com.project.firebasesocial.models.ModelUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class UsersFragment extends Fragment {
 
     RecyclerView recyclerView;
     AdapterUsers adapterUsers;
-    List<ModelUsers> usersList;
+    List<ModelUser> usersList;
 
     FirebaseAuth firebaseAuth;
 
@@ -86,10 +86,10 @@ public class UsersFragment extends Fragment {
 
                 usersList.clear();
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    ModelUsers modelUsers = ds.getValue(ModelUsers.class);
+                    ModelUser modelUser = ds.getValue(ModelUser.class);
 
-                    if (!modelUsers.getUid().equals(fUser.getUid())) {
-                        usersList.add(modelUsers);
+                    if (!modelUser.getUid().equals(fUser.getUid())) {
+                        usersList.add(modelUser);
                     }
 
                     //adapter
@@ -121,13 +121,13 @@ public class UsersFragment extends Fragment {
 
                 usersList.clear();
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    ModelUsers modelUsers = ds.getValue(ModelUsers.class);
+                    ModelUser modelUser = ds.getValue(ModelUser.class);
                     //Get all searched users except currently signed in user
-                    if (!modelUsers.getUid().equals(fUser.getUid())) {
+                    if (!modelUser.getUid().equals(fUser.getUid())) {
                         //can find by by username and email
-                        if (modelUsers.getName().toLowerCase().contains(query.toLowerCase()) ||
-                        modelUsers.getemail().toLowerCase().contains(query.toLowerCase())){
-                            usersList.add(modelUsers);
+                        if (modelUser.getName().toLowerCase().contains(query.toLowerCase()) ||
+                        modelUser.getemail().toLowerCase().contains(query.toLowerCase())){
+                            usersList.add(modelUser);
                         }
 
 

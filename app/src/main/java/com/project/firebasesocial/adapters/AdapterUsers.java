@@ -7,14 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.firebasesocial.ChatActivity;
 import com.project.firebasesocial.R;
-import com.project.firebasesocial.models.ModelUsers;
+import com.project.firebasesocial.models.ModelUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,11 +21,11 @@ import java.util.List;
 public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
 
     Context context;
-    List<ModelUsers> usersList;
+    List<ModelUser> usersList;
 
     //Constructor
 
-    public AdapterUsers(Context context, List<ModelUsers> usersList){
+    public AdapterUsers(Context context, List<ModelUser> usersList){
         this.context = context;
         this.usersList = usersList;
     }
