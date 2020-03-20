@@ -1,4 +1,4 @@
-package com.project.firebasesocial.notifications;
+ package com.project.firebasesocial.notifications;
 
 import android.util.Log;
 

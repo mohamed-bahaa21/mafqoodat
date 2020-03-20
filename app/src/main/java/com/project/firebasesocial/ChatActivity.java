@@ -246,7 +246,14 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("isSeen", false);
         databaseReference.child("Chats").push().setValue(hashMap);
 
-        final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+        messageEt.setText("");
+
+        String msg = message;
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+
+
+
+        //final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -306,7 +313,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void checkOnlineStatus(String status){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(myUid);
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("onlineStatus", status);
         //update value of onlineStatus of current user
@@ -314,7 +321,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void checkTypingStatus(String typing){
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(myUid);
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("typingTo", typing);
         //update value of onlineStatus of current user

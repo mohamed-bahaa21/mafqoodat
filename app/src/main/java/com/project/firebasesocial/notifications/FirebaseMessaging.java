@@ -48,7 +48,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     private void sendNormalNotification(RemoteMessage remoteMessage) {
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
-        String title = remoteMessage.getData().get("user");
+        String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
@@ -63,11 +63,11 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         Uri defSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(Integer.parseInt(icon))
-                .setContentIntent(pIntent)
-                .setContentTitle(title)
                 .setContentText(body)
+                .setContentTitle(title)
+                .setAutoCancel(true)
                 .setSound(defSoundUri)
-                .setAutoCancel(true);
+                .setContentIntent(pIntent);
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         int j = 0;
@@ -81,7 +81,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     private void sendOAndAboveNotification(RemoteMessage remoteMessage) {
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
-        String title = remoteMessage.getData().get("user");
+        String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
