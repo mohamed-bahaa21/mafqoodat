@@ -5,8 +5,7 @@ public class Data {
     private String user, body, title, sent;
     private Integer icon;
 
-    public Data() {
-    }
+    public Data() {}
 
     public Data(String user, String body, String title, String sent, Integer icon) {
         this.user = user;

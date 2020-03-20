@@ -48,7 +48,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     private void sendNormalNotification(RemoteMessage remoteMessage) {
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
-        String title = remoteMessage.getData().get("user");
+        String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
@@ -77,11 +77,13 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         notificationManager.notify(j,builder.build());
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendOAndAboveNotification(RemoteMessage remoteMessage) {
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
-        String title = remoteMessage.getData().get("user");
+        String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
