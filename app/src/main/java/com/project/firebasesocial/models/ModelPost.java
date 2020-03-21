@@ -1,6 +1,7 @@
 package com.project.firebasesocial.models;
 
 public class ModelPost {
+
     String pId, pTitle, pDesc, pImage, pTime, uid, email, uDp, name;
 
     public ModelPost() {

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="3dp"
     app:cardElevation="3dp"
-    android:padding="5dp"
+    app:contentPadding="5dp"
     app:cardUseCompatPadding="true"
     app:cardBackgroundColor="@color/white">
 
@@ -27,11 +27,13 @@
                     android:src="@drawable/ic_default_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp" />
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1">
+
                     <TextView
                         android:id="@+id/uNameTv"
                         android:text="Name"
@@ -44,14 +46,15 @@
                         android:text="33 min"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
-                </LinearLayout>
-            <ImageButton
-                android:id="@+id/moreBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:src="@drawable/ic_more_black"/>
 
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/moreBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:src="@drawable/ic_more_black"/>
 
             </LinearLayout>
 
@@ -63,6 +66,7 @@
                 android:textStyle="bold"
                 android:text="Title"
                 android:autoLink="all"/>
+
             <TextView
                 android:id="@+id/pDescriptionTv"
                 android:text="The decription of the post"
@@ -70,26 +74,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="all"/>
+
             <ImageView
-                android:id="@+id/pImageTv"
+                android:id="@+id/pImageIv"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:background="@color/white"/>
+
             <TextView
                 android:id="@+id/pLikesTv"
                 android:text="1.2 Likes"
                 android:textColor="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:background="#FF9205" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
+
                 <Button
                     android:id="@+id/likeBtn"
                     android:layout_width="wrap_content"
@@ -121,4 +130,5 @@
             </LinearLayout>
 
         </LinearLayout>
+
 </androidx.cardview.widget.CardView>

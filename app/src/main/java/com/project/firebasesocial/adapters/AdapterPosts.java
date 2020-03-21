@@ -24,56 +24,57 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.myHolder> {
+public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
 
     Context context;
     List<ModelPost> postList;
 
-    public AdapterPosts(Context context, Context context1, List<ModelPost> postList) {
-        this.context = context1;
+    public AdapterPosts(Context context, List<ModelPost> postList) {
+        this.context = context;
         this.postList = postList;
     }
 
     @NonNull
     @Override
-    public myHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.row_posts, viewGroup, false);
-        return new myHolder(view);
+        return new MyHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull myHolder holder, int i) {
-        String Uid = postList.get(i).getUid();
-        String uEmail = postList.get(i).getEmail();
-        String uName = postList.get(i).getName();
-        String pDescription = postList.get(i).getpDesc();
+    public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
+        String uid = postList.get(i).getUid();
+        String email = postList.get(i).getEmail();
+        String name = postList.get(i).getName();
+        String pDesc = postList.get(i).getpDesc();
         String pId = postList.get(i).getpId();
         String pImage = postList.get(i).getpImage();
-        String pTimeStamp = postList.get(i).getpTime();
+        String pTimestamp = postList.get(i).getpTime();
         String pTitle = postList.get(i).getpTitle();
         String uDp = postList.get(i).getuDp();
 
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        calendar.setTimeInMillis(Long.parseLong(pTimeStamp));
+        calendar.setTimeInMillis(Long.parseLong(pTimestamp));
         String pTime = DateFormat.format("dd/MM/yyy hh:mm aa", calendar).toString();
 
         //set data
-        myHolder.uNameTv.setText(uName);
+        myHolder.uNameTv.setText(name);
         myHolder.pTimeTv.setText(pTime);
         myHolder.pTitleTv.setText(pTitle);
-        myHolder.pDescriptionTv.setText(pDescription);
+        myHolder.pDescriptionTv.setText(pDesc);
 
         try {
             Picasso.get().load(uDp).placeholder(R.drawable.ic_default_img).into(myHolder.uPictureIv);
-        }catch (Exception e){}
+        }catch (Exception e){
+
+        }
 
 
         if (pImage.equals("noImage")){
-                    myHolder.pImageIv.setVisibility(View.GONE);
+            myHolder.pImageIv.setVisibility(View.GONE);
         }else{
-
             try {
-                Picasso.get().load(pImage).into(myHolder.pImageTv);
+                Picasso.get().load(pImage).into(myHolder.pImageIv);
             }catch (Exception e){
 
             }
@@ -116,18 +117,17 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.myHolder> {
         return postList.size();
     }
 
-    class myHolder extends RecyclerView.ViewHolder{
+    class MyHolder extends RecyclerView.ViewHolder{
 
-
-        ImageView uPictureIv, pImageTv;
+        ImageView uPictureIv, pImageIv;
         TextView uNameTv, pTimeTv, pTitleTv, pDescriptionTv, pLikesTv;
         ImageButton moreBtn;
         Button likeBtn, commentBtn, shareBtn;
 
-        public myHolder(@NonNull View itemView) {
+        public MyHolder(@NonNull View itemView) {
             super(itemView);
             uPictureIv = itemView.findViewById(R.id.uPictureIv);
-            pImageTv = itemView.findViewById(R.id.pImageTv);
+            pImageIv = itemView.findViewById(R.id.pImageIv);
             uNameTv = itemView.findViewById(R.id.uNameTv);
             pTimeTv = itemView.findViewById(R.id.pTimeTv);
             pTitleTv = itemView.findViewById(R.id.pTitleTv);
@@ -137,9 +137,6 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.myHolder> {
             likeBtn = itemView.findViewById(R.id.likeBtn);
             commentBtn = itemView.findViewById(R.id.commentBtn);
             shareBtn = itemView.findViewById(R.id.shareBtn);
-
-
-
         }
     }
 }

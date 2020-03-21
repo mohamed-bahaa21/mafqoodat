@@ -63,12 +63,12 @@ public class HomeFragment extends Fragment {
 
         postList = new ArrayList<>();
 
-        LoadPosts();
+        loadPosts();
 
         return view;
     }
 
-    private void LoadPosts() {
+    private void loadPosts() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
 
         ref.addValueEventListener(new ValueEventListener() {
@@ -77,20 +77,15 @@ public class HomeFragment extends Fragment {
                 postList.clear();
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     ModelPost modelPost = ds.getValue(ModelPost.class);
-
                     postList.add(modelPost);
-
                     adapterPosts = new AdapterPosts(getActivity(), postList);
-
                     recyclerView.setAdapter(adapterPosts);
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getActivity(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
     }
@@ -104,25 +99,18 @@ public class HomeFragment extends Fragment {
                 postList.clear();
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     ModelPost modelPost = ds.getValue(ModelPost.class);
-
                     if(modelPost.getpTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
                             modelPost.getpDesc().toLowerCase().contains(searchQuery.toLowerCase())){
-
                         postList.add(modelPost);
-
                     }
-
                     adapterPosts = new AdapterPosts(getActivity(), postList);
-
                     recyclerView.setAdapter(adapterPosts);
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getActivity(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
     }
@@ -147,7 +135,7 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
 
-        MenuItem.item = menu.findItem(R.id.action_Search);
+        MenuItem item = menu.findItem(R.id.action_Search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -155,11 +143,9 @@ public class HomeFragment extends Fragment {
             public boolean onQueryTextSubmit(String s) {
                 //Called when user click search button
                 if (!TextUtils.isEmpty(s)) {
-
                     searchPosts(s);
-
                 }else {
-                    LoadPosts();
+                    loadPosts();
                 }
                 return false;
             }
@@ -168,11 +154,9 @@ public class HomeFragment extends Fragment {
             public boolean onQueryTextChange(String s) {
                 //called when user press any letter
                 if (!TextUtils.isEmpty(s)) {
-
                     searchPosts(s);
-
                 }else {
-                    LoadPosts();
+                    loadPosts();
                 }
                 return false;
             }
