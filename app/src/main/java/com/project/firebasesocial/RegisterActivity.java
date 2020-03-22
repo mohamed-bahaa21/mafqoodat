@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText mEmailEt, mPasswordEt;
+    EditText mEmailEt, mPasswordEt, mNameEt, mPhoneEt;
     Button mRegisterBtn;
     TextView mHaveAccountTv;
 
@@ -49,6 +49,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         mEmailEt = findViewById(R.id.emailEt);
         mPasswordEt = findViewById(R.id.passwordEt);
+        mNameEt = findViewById(R.id.nameEt);
+        mPhoneEt = findViewById(R.id.phoneEt);
+
         mRegisterBtn = findViewById(R.id.registerBtn);
         mHaveAccountTv = findViewById(R.id.have_accountTv);
 
@@ -63,13 +66,20 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = mEmailEt.getText().toString().trim();
                 String password = mPasswordEt.getText().toString().trim();
+                String name = mNameEt.getText().toString().trim();
+                String phone = mPhoneEt.getText().toString().trim();
 
                 if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     mEmailEt.setError("Invalid Email");
                 } else if (password.length() < 6){
                     mPasswordEt.setError("Password Length at least 6 charachters");
-                } else {
-                    registerUser(email, password);
+                } else if(name.length() < 3){
+                    mNameEt.setError("Name Length at least 3 charachters");
+                } else if(!Patterns.PHONE.matcher(phone).matches()){
+                    mPhoneEt.setError("Invalid Phone");
+                }
+                else {
+                    registerUser(email, password, name, phone);
                 }
             }
         });
@@ -83,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void registerUser(String email, String password) {
+    private void registerUser(String email, String password, final String name, final String phone) {
         progressDialog.show();
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -103,10 +113,10 @@ public class RegisterActivity extends AppCompatActivity {
                     // put info in hashmap
                     hashMap.put("email", email);
                     hashMap.put("uid", uid);
-                    hashMap.put("name", ""); // will add later (e.g. edit profile)
+                    hashMap.put("name", name); // will add later (e.g. edit profile)
                     hashMap.put("onlineStatus", "online"); // will add later (e.g. edit profile)
                     hashMap.put("typingTo", "noOne"); // will add later (e.g. edit profile)
-                    hashMap.put("phone", ""); // will add later (e.g. edit profile)
+                    hashMap.put("phone", phone); // will add later (e.g. edit profile)
                     hashMap.put("image", ""); // will add later (e.g. edit profile)
                     hashMap.put("cover", ""); // will add later (e.g. edit profile)
 
