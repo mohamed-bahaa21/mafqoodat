@@ -189,11 +189,11 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         });
     }
 
-    private void setLike(final MyHolder holder, final String postkey) {
+    private void setLike(final MyHolder holder, final String postKey) {
         likesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(postkey).hasChild(myUid)){
+                if(dataSnapshot.child(postKey).hasChild(myUid)){
                     // User has Liked this post
 
                     holder.likeBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked  , 0,0,0);
