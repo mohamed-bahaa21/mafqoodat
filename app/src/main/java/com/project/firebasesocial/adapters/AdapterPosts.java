@@ -195,21 +195,16 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child(postKey).hasChild(myUid)){
                     // User has Liked this post
-
                     holder.likeBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked  , 0,0,0);
                     holder.likeBtn.setText("Liked");
-
                 }else{
                     // User has not Liked this post
-
                     holder.likeBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_black  , 0,0,0);
                     holder.likeBtn.setText("Like");
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
