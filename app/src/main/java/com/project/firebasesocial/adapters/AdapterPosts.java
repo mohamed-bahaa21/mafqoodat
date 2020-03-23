@@ -162,7 +162,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                                 mProcessLike = false;
                             }else{
                                 //not Liked, Like it
-                                postRef.child(postIde).child("pLike").setValue(""+(pLikes+1));
+                                postRef.child(postIde).child("pLikes").setValue(""+(pLikes+1));
                                 likesRef.child(postIde).child(myUid).setValue("Liked");
                                 mProcessLike = false;
 
