@@ -2,16 +2,17 @@ package com.project.firebasesocial.models;
 
 public class ModelPost {
 
-    String pId, pTitle, pDesc, pLikes, pImage, pTime, uid, email, uDp, name;
+    String pId, pTitle, pDesc, pLikes, pComments, pImage, pTime, uid, email, uDp, name;
 
     public ModelPost() {
     }
 
-    public ModelPost(String pId, String pTitle, String pDesc, String pLikes, String pImage, String pTime, String uid, String email, String uDp, String name) {
+    public ModelPost(String pId, String pTitle, String pDesc, String pLikes, String pComments, String pImage, String pTime, String uid, String email, String uDp, String name) {
         this.pId = pId;
         this.pTitle = pTitle;
         this.pDesc = pDesc;
         this.pLikes = pLikes;
+        this.pComments = pComments;
         this.pImage = pImage;
         this.pTime = pTime;
         this.uid = uid;
@@ -50,6 +51,14 @@ public class ModelPost {
 
     public void setpLikes(String pLikes) {
         this.pLikes = pLikes;
+    }
+
+    public String getpComments() {
+        return pComments;
+    }
+
+    public void setpComments(String pComments) {
+        this.pComments = pComments;
     }
 
     public String getpImage() {

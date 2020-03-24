@@ -362,6 +362,38 @@ public class ProfileFragment extends Fragment {
 
                             }
                         });
+                        //update name in current users comments on posts
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                    String child = ds.getKey();
+                                    if (dataSnapshot.child(child).hasChild("Comments")){
+                                        String child1 = "" + dataSnapshot.child(child).getKey();
+                                        Query child2 = FirebaseDatabase.getInstance().getReference("Posts").child(child1).child("Comments").orderByChild("uid").equalTo(uid);
+                                        child2.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                                    String child = ds.getKey();
+                                                    dataSnapshot.getRef().child(child).child("uName").setValue(value);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
                 }else {
                     Toast.makeText(getActivity(), "Please enter "+key+"", Toast.LENGTH_SHORT).show();
@@ -506,6 +538,41 @@ public class ProfileFragment extends Fragment {
 
                             }
                         });
+
+                        //update user image in current user comments
+                        //update name in current users comments on posts
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                    String child = ds.getKey();
+                                    if (dataSnapshot.child(child).hasChild("Comments")){
+                                        String child1 = "" + dataSnapshot.child(child).getKey();
+                                        Query child2 = FirebaseDatabase.getInstance().getReference("Posts").child(child1).child("Comments").orderByChild("uid").equalTo(uid);
+                                        child2.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                                    String child = ds.getKey();
+                                                    dataSnapshot.getRef().child(child).child("uDp").setValue(downloadUri.toString());
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                     }
                 } else {
                     pd.dismiss();

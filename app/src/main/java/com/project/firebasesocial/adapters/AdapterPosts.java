@@ -38,6 +38,7 @@ import com.google.firebase.database.core.ValueEventRegistration;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.firebasesocial.AddPostActivity;
+import com.project.firebasesocial.PostDetailActivity;
 import com.project.firebasesocial.R;
 import com.project.firebasesocial.ThereProfileActivity;
 import com.project.firebasesocial.models.ModelPost;
@@ -88,6 +89,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         String pTitle = postList.get(i).getpTitle();
         String uDp = postList.get(i).getuDp();
         String pLikes = postList.get(i).getpLikes(); //Contain number of likes for a post
+        String pComments = postList.get(i).getpComments(); //Contain number of likes for a post
 
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.setTimeInMillis(Long.parseLong(pTimestamp));
@@ -99,6 +101,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         myHolder.pTitleTv.setText(pTitle);
         myHolder.pDescriptionTv.setText(pDesc);
         myHolder.pLikesTv.setText(pLikes + "Likes"); //e.g 100 Likes
+        myHolder.pCommentsTv.setText(pComments + "Comments"); //e.g 100 Likes
 
         setLike(myHolder, pId);
 
@@ -139,8 +142,10 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         myHolder.commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //will implement later
-                Toast.makeText(context, "Comment", Toast.LENGTH_SHORT).show();
+                //start postDetailActivity
+                Intent intent = new Intent(context, PostDetailActivity.class);
+                intent.putExtra("postId", pId);
+                context.startActivity(intent);
             }
         });
 
@@ -219,6 +224,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete");
             popupMenu.getMenu().add(Menu.NONE, 1, 0, "Edit");
         }
+        popupMenu.getMenu().add(Menu.NONE, 2, 0, "View Detail");
 
         //item click listener
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -233,6 +239,11 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                     Intent intent = new Intent(context, AddPostActivity.class);
                     intent.putExtra("key", "editPost");
                     intent.putExtra("editPostId", pId);
+                    context.startActivity(intent);
+                } else if (id == 2){
+                    //start postDetailActivity
+                    Intent intent = new Intent(context, PostDetailActivity.class);
+                    intent.putExtra("postId", pId);
                     context.startActivity(intent);
                 }
                 return false;
@@ -330,7 +341,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
     class MyHolder extends RecyclerView.ViewHolder{
 
         ImageView uPictureIv, pImageIv;
-        TextView uNameTv, pTimeTv, pTitleTv, pDescriptionTv, pLikesTv;
+        TextView uNameTv, pTimeTv, pTitleTv, pDescriptionTv, pLikesTv, pCommentsTv;
         ImageButton moreBtn;
         Button likeBtn, commentBtn, shareBtn;
 
@@ -345,6 +356,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             pTitleTv = itemView.findViewById(R.id.pTitleTv);
             pDescriptionTv = itemView.findViewById(R.id.pDescriptionTv);
             pLikesTv = itemView.findViewById(R.id.pLikesTv);
+            pCommentsTv = itemView.findViewById(R.id.pCommentsTv);
             moreBtn = itemView.findViewById(R.id.moreBtn);
             likeBtn = itemView.findViewById(R.id.likeBtn);
             commentBtn = itemView.findViewById(R.id.commentBtn);
