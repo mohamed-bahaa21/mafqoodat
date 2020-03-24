@@ -3,7 +3,7 @@ package com.project.firebasesocial.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.media.MediaDescriptionCompatApi21;
+//import android.support.v4.media.MediaDescriptionCompatApi21;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
