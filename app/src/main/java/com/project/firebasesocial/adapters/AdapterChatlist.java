@@ -53,16 +53,17 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
         //set data
         myHolder.nameTv.setText(userName);
         // the error is: lastMessage here equals null, how-to-solve ?
-        Toast.makeText(context, "LastMessage: "+lastMessage, Toast.LENGTH_SHORT).show();
-        lastMessage = "default";
+//        Toast.makeText(context, "LastMessage: "+lastMessage, Toast.LENGTH_SHORT).show();
+//        lastMessage = "default";
 
-        if (lastMessage != null || lastMessage.equals("default")){
+        if (lastMessage == null || lastMessage.equals("default")){
             myHolder.lastMessageTv.setVisibility(View.GONE);
         } else {
             myHolder.lastMessageTv.setVisibility(View.VISIBLE);
             myHolder.lastMessageTv.setText(lastMessage);
         }
 
+        //show profile image
         try {
             Picasso.get().load(userImage).placeholder(R.drawable.ic_default_img).into(myHolder.profileIv);
         } catch (Exception e) {
