@@ -46,6 +46,16 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <provider
+            android:authorities="com.project.firebasesocial.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:forceUriPermissions="true">
+            <meta-data
+                android:name="android_support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/paths" />
+        </provider>
     </application>
 
 </manifest>

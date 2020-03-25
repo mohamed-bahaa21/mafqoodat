@@ -3,6 +3,9 @@ package com.project.firebasesocial.adapters;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.text.format.DateFormat;
 import android.view.Gravity;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,6 +49,8 @@ import com.project.firebasesocial.models.ModelPost;
 import com.squareup.picasso.Picasso;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -82,18 +88,18 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         final String uid = postList.get(i).getUid();
         String email = postList.get(i).getEmail();
         String name = postList.get(i).getName();
-        String pDesc = postList.get(i).getpDesc();
+        final String pDesc = postList.get(i).getpDesc();
         final String pId = postList.get(i).getpId();
         final String pImage = postList.get(i).getpImage();
         String pTimestamp = postList.get(i).getpTime();
-        String pTitle = postList.get(i).getpTitle();
+        final String pTitle = postList.get(i).getpTitle();
         String uDp = postList.get(i).getuDp();
         String pLikes = postList.get(i).getpLikes(); //Contain number of likes for a post
         String pComments = postList.get(i).getpComments(); //Contain number of likes for a post
 
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.setTimeInMillis(Long.parseLong(pTimestamp));
-        String pTime = DateFormat.format("dd/MM/yyy hh:mm aa", calendar).toString();
+        final String pTime = DateFormat.format("dd/MM/yyy hh:mm aa", calendar).toString();
 
         //set data
         myHolder.uNameTv.setText(name);
@@ -135,8 +141,16 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         myHolder.shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //will implement later
-                Toast.makeText(context, "Share", Toast.LENGTH_SHORT).show();
+
+                BitmapDrawable bitmapDrawable = (BitmapDrawable)myHolder.pImageIv.getDrawable();
+                if(bitmapDrawable == null){
+                    //post without image
+                    shareTextOnly(pTitle, pDesc);
+                }else {
+                    //post with image
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    shareImageAndText(pTitle, pDesc, bitmap);
+                }
             }
         });
         myHolder.commentBtn.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +207,50 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             }
         });
     }
+
+    private void shareTextOnly(String pTitle, String pDesc) {
+        String shareBody = pTitle +"\n"+ pDesc;
+        Intent sIntent = new Intent(Intent.ACTION_SEND);
+        sIntent.setType("text/plain");
+        sIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
+        sIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+        context.startActivity(Intent.createChooser(sIntent, "Share Via"));
+    }
+
+    private void shareImageAndText(String pTitle, String pDesc, Bitmap bitmap) {
+        String shareBody = pTitle +"\n"+ pDesc;
+
+        Uri uri = saveImageToShare(bitmap);
+        Intent sIntent = new Intent(Intent.ACTION_SEND);
+        sIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        sIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+        sIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
+        sIntent.setType("image/png");
+        context.startActivity(Intent.createChooser(sIntent, "Share Via"));
+    }
+
+    private Uri saveImageToShare(Bitmap bitmap) {
+        File imageFolder = new File(context.getCacheDir(), "images");
+        Uri uri = null;
+        try{
+            imageFolder.mkdirs();
+            File file = new File(imageFolder, "shared_image.png");
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(context, "com.project.firebasesocial.fileprovider",
+                    file);
+
+
+
+        }catch (Exception e){
+            Toast.makeText(context, ""+ e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return uri;
+    }
+
+
 
     private void setLike(final MyHolder holder, final String postKey) {
         likesRef.addValueEventListener(new ValueEventListener() {
