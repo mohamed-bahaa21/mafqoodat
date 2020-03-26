@@ -430,6 +430,8 @@ public class AddPostActivity extends AppCompatActivity {
                                 hashMap.put("pDesc", desc);
                                 hashMap.put("pImage", downloadUri);
                                 hashMap.put("pTime", timeStamp);
+                                hashMap.put("pLikes", "0");
+                                hashMap.put("pComments", "0");
 
                                 //path to store in this ref
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
@@ -475,6 +477,9 @@ public class AddPostActivity extends AppCompatActivity {
             hashMap.put("pDesc", desc);
             hashMap.put("pImage", "noImage");
             hashMap.put("pTime", timeStamp);
+            hashMap.put("pLikes", "0");
+            hashMap.put("pComments", "0");
+
 
             //path to store in this ref
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
@@ -557,8 +562,6 @@ public class AddPostActivity extends AppCompatActivity {
     private void requestStoragePermission(){
         ActivityCompat.requestPermissions(this, storagePermissions, STORAGE_REQUEST_CODE);
     }
-
-
 
     private boolean checkCameraPermission(){
         boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);

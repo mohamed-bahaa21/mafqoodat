@@ -73,6 +73,13 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/attachBtn"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:src="@drawable/ic_attach_black"/>
+        
         <EditText
             android:id="@+id/messageEt"
             android:layout_weight="1"
