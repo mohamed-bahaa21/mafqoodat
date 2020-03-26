@@ -527,11 +527,18 @@ public class ChatActivity extends AppCompatActivity {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
                     Token token = ds.getValue(Token.class);
-                    Data data = new Data(myUid, name+": "+message, "New Message", hisUid, R.drawable.ic_default_img);
+                    Data data = new Data(
+                            ""+myUid,
+                            name + ": " + message,
+                            "New Message",
+                            ""+hisUid,
+                            "ChatNotification",
+                             R.drawable.ic_default_img);
 
                     Sender sender = new Sender(data, token.getToken());
+
 
                     //fom json object request
                     try {
