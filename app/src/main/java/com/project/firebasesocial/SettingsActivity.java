@@ -22,9 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     SharedPreferences sp;
     SharedPreferences.Editor editor;
 
-
     private static final String TOPIC_POST_NOTIFICATION = "POST";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
