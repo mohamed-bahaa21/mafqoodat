@@ -369,14 +369,13 @@ public class ChatActivity extends AppCompatActivity {
         hashMap.put("message", message);
         hashMap.put("timestamp", timestamp);
         hashMap.put("isSeen", false);
+        hashMap.put("type", "text");
         databaseReference.child("Chats").push().setValue(hashMap);
+
 
         messageEt.setText("");
 
-        String msg = message;
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
-
-
 
         //final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
         database.addValueEventListener(new ValueEventListener() {
@@ -435,12 +434,12 @@ public class ChatActivity extends AppCompatActivity {
 
 
         final String timeStamp = ""+System.currentTimeMillis();
-        String fileNameAndPath = "Chat Image/"+"post_"+timeStamp;
+        String fileNameAndPath = "ChatImages/"+"post_"+timeStamp;
 
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_uri);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] data = baos.toByteArray();
+        byte[] data = baos.toByteArray(); //convert image to bytes
         StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
         ref.putBytes(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -461,7 +460,6 @@ public class ChatActivity extends AppCompatActivity {
                             hashMap.put("timestamp", timeStamp);
                             hashMap.put("type", "image");
                             hashMap.put("isSeen", false);
-                            hashMap.put("type", "text");
                             databaseReference.child("Chats").push().setValue(hashMap);
 
                             DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);

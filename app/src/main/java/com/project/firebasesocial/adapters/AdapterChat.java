@@ -62,7 +62,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, final int i) {
-         String message = chatList.get(i).getMessage();
+        String message = chatList.get(i).getMessage();
         String timeStamp = chatList.get(i).getTimestamp();
         String type = chatList.get(i).getType();
 
@@ -71,7 +71,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
         cal.setTimeInMillis(Long.parseLong(timeStamp));
         String dateTime = DateFormat.format("dd/MM/yyyy hh:mm aa", cal).toString();
 
-        if(type.equals("Text")){
+        if(type.equals("text")){
             myHolder.messageTv.setVisibility(View.VISIBLE);
             myHolder.messageIv.setVisibility(View.GONE);
 
