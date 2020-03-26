@@ -173,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(message)){
                     Toast.makeText(ChatActivity.this, "Cannot send the empty message...", Toast.LENGTH_SHORT).show();
                 }  else{
-                    sendMessage(message);
+                    sendMessage (message);
                 }
                 //reset edit-text after sending message
                 messageEt.setText("");
@@ -264,6 +264,8 @@ public class ChatActivity extends AppCompatActivity {
         String msg = message;
         DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
 
+
+
         //final DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -283,7 +285,6 @@ public class ChatActivity extends AppCompatActivity {
         final DatabaseReference chatRef1 = FirebaseDatabase.getInstance().getReference("Chatlist")
                 .child(myUid)
                 .child(hisUid);
-
         chatRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -299,7 +300,6 @@ public class ChatActivity extends AppCompatActivity {
         final DatabaseReference chatRef2 = FirebaseDatabase.getInstance().getReference("Chatlist")
                 .child(hisUid)
                 .child(myUid);
-
         chatRef2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -311,6 +311,8 @@ public class ChatActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+
     }
 
     private void sendNotification(final String hisUid, final String name, final String message) {
@@ -328,29 +330,31 @@ public class ChatActivity extends AppCompatActivity {
                     //fom json object request
                     try {
                         JSONObject senderJsonObj = new JSONObject(new Gson().toJson(sender));
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", senderJsonObj,
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fom.googleapis.com/fom/send", senderJsonObj,
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        Log.d("JSON_RESPONSE", "onResponse: "+response.toString());
+                                        Log.d("JSON_RESPONSE", "OnResponse: "+response.toString());
+
                                     }
                                 }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.d("JSON_RESPONSE", "onResponse: "+error.toString());
+                                Log.d("JSON_RESPONSE", "OnResponse: "+error.toString());
                             }
                         }){
                             @Override
                             public Map<String, String> getHeaders() throws AuthFailureError {
                                 Map<String, String> headers = new HashMap<>();
                                 headers.put("Content-Type", "application/json");
-                                headers.put("Authorization", "key=AAAAIDG2phE:APA91bGuznNgnOYYGzhnGVSYNyh3vTIEL5g0a7ZB9ctBhUFCx2CWorv5VtODG1D0Vn1Ag_9KV8Vkfmo7MzRONTcym2IiuoYVYbE82bkqc_dkatG_v52OlO3LE1Er2je2ZADrmvPNkrLR");
+                                headers.put("Authorization", "Key=AAAAIDG2phE:APA91bGuznNgnOYYGzhnGVSYNyh3vTIEL5g0a7ZB9ctBhUFCx2CWorv5VtODG1D0Vn1Ag_9KV8Vkfmo7MzRONTcym2IiuoYVYbE82bkqc_dkatG_v52OlO3LE1Er2je2ZADrmvPNkrLR");
+
+
                                 return headers;
                             }
                         };
-                        //add this request to queue
-                        requestQueue.add(jsonObjectRequest);
 
+                        requestQueue.add(jsonObjectRequest);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
