@@ -427,6 +427,102 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    private void sendImageMessage(Uri image_uri) throws IOException {
+        notify = true;
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Sending image...");
+        progressDialog.show();
+
+
+        final String timeStamp = ""+System.currentTimeMillis();
+        String fileNameAndPath = "Chat Image/"+"post_"+timeStamp;
+
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_uri);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
+        ref.putBytes(data)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!uriTask.isSuccessful());
+                        String downloadUri = uriTask.getResult().toString();
+
+                        if (uriTask.isSuccessful()){
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("sender", myUid);
+                            hashMap.put("receiver", hisUid);
+                            hashMap.put("message", downloadUri);
+                            hashMap.put("timestamp", timeStamp);
+                            hashMap.put("type", "image");
+                            hashMap.put("isSeen", false);
+                            hashMap.put("type", "text");
+                            databaseReference.child("Chats").push().setValue(hashMap);
+
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+                            database.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    ModelUser user = dataSnapshot.getValue(ModelUser.class);
+
+                                    if(notify){
+                                        sendNotification(hisUid, user.getName(),"Sent you a photo...");
+                                    }
+                                    notify = false;
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                            //create chatlist node/child in firebase database
+                            final DatabaseReference chatRef1 = FirebaseDatabase.getInstance().getReference("Chatlist")
+                                    .child(myUid)
+                                    .child(hisUid);
+                            chatRef1.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (!dataSnapshot.exists()) {
+                                        chatRef1.child("id").setValue(hisUid);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });
+
+                            final DatabaseReference chatRef2 = FirebaseDatabase.getInstance().getReference("Chatlist")
+                                    .child(hisUid)
+                                    .child(myUid);
+                            chatRef2.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (!dataSnapshot.exists()) {
+                                        chatRef2.child("id").setValue(myUid);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
     private void sendNotification(final String hisUid, final String name, final String message) {
         DatabaseReference allTokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = allTokens.orderByKey().equalTo(hisUid);
@@ -576,75 +672,25 @@ public class ChatActivity extends AppCompatActivity {
             if(requestCode == IMAGE_PICK_GALLERY_CODE){
                 image_uri = data.getData();
 
+                try {
                     sendImageMessage(image_uri);
-                    
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             } else if (requestCode == IMAGE_PICK_CAMERA_CODE){
-    
+
+                try {
                     sendImageMessage(image_uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         }
     }
 
-    private void sendImageMessage(Uri image_uri) throws IOException {
-        notify = true;
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Sending image...");
-        progressDialog.show();
 
-
-        final String timeStamp = ""+System.currentTimeMillis()
-        String fileNameAndPath = "Chat Image/"+"post_"+timeStamp;
-
-        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_uri);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] data = baos.toByteArray();
-        StorageReference ref = FirebaseStorage.getInstance().getReference().child(fileNameAndPath);
-        ref.putBytes(data)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
-                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isSuccessful());
-                        String downloadUri = uriTask.getResult().toString();
-
-                        if (uriTask.isSuccessful()){
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("sender", myUid);
-                            hashMap.put("receiver", hisUid);
-                            hashMap.put("message", downloadUri);
-                            hashMap.put("timestamp", timeStamp);
-                            hashMap.put("type", "image");
-                            hashMap.put("isSeen", "false");
-                            databaseReference.child("Chats").push().setValue(hashMap);
-
-                            DatabaseReference database = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
-                            database.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-    }
 
 
 
