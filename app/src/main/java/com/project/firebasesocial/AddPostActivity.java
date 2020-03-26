@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -45,8 +51,12 @@ import com.google.firebase.storage.UploadTask;
 import com.project.firebasesocial.notifications.Data;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AddPostActivity extends AppCompatActivity {
 
@@ -446,6 +456,13 @@ public class AddPostActivity extends AppCompatActivity {
                                                 descEt.setText("");
                                                 imageIv.setImageURI(null);
                                                 image_uri = null;
+                                                prepareNotification(
+                                                        ""+timeStamp,
+                                                        ""+name+"added new post",
+                                                        ""+title+"\n"+desc,
+                                                        "PostNotification",
+                                                        "POST"
+                                                );
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -495,6 +512,14 @@ public class AddPostActivity extends AppCompatActivity {
                             descEt.setText("");
                             imageIv.setImageURI(null);
                             image_uri = null;
+
+                            prepareNotification(
+                                    ""+timeStamp,
+                                    ""+name+"added new post",
+                                    ""+title+"\n"+desc,
+                                    "PostNotification",
+                                    "POST"
+                            );
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -505,6 +530,60 @@ public class AddPostActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void prepareNotification(String pId, String title, String description, String notificationType, String notificationTopic){
+
+        String NOTIFICATION_TOPIC = "/topics/" + notificationTopic;
+        String NOTIFICATION_TITLE = title;
+        String NOTIFICATION_MESSAGE = description;
+        String NOTIFICATION_TYPE = notificationType;
+        JSONObject notificationJo = new JSONObject();
+        JSONObject notificationBodyJo = new JSONObject();
+
+        try {
+            notificationBodyJo.put("notificationType", NOTIFICATION_TYPE);
+            notificationBodyJo.put("sender", uid);
+            notificationBodyJo.put("pId", pId);
+            notificationBodyJo.put("pTitle", NOTIFICATION_TITLE);
+            notificationBodyJo.put("pDescription", NOTIFICATION_MESSAGE);
+
+            notificationJo.put("to", NOTIFICATION_TOPIC);
+            notificationJo.put("data", notificationBodyJo);
+
+        } catch (JSONException e) {
+            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        sendPostNotification(notificationJo);
+
+    }
+
+    private void sendPostNotification(JSONObject notificationJo) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("FCM_RESPONSE", "onResponse"+response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(AddPostActivity.this, ""+error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Key=AAAAIDG2phE:APA91bGuznNgnOYYGzhnGVSYNyh3vTIEL5g0a7ZB9ctBhUFCx2CWorv5VtODG1D0Vn1Ag_9KV8Vkfmo7MzRONTcym2IiuoYVYbE82bkqc_dkatG_v52OlO3LE1Er2je2ZADrmvPNkrLR");
+
+                return headers;
+            }
+        };
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
     private void showImagePickDialog() {
