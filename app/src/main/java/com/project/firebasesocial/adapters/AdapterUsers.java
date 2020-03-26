@@ -9,16 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.internal.$Gson$Preconditions;
 import com.project.firebasesocial.ChatActivity;
 import com.project.firebasesocial.R;
 import com.project.firebasesocial.ThereProfileActivity;
 import com.project.firebasesocial.models.ModelUser;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
@@ -26,11 +37,15 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
     Context context;
     List<ModelUser> usersList;
 
+    FirebaseAuth firebaseAuth;
+    String myUid;
     //Constructor
 
     public AdapterUsers(Context context, List<ModelUser> usersList){
         this.context = context;
         this.usersList = usersList;
+        firebaseAuth = FirebaseAuth.getInstance();
+        myUid = firebaseAuth.getUid();
     }
     @NonNull
     @Override
@@ -43,11 +58,11 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NonNull MyHolder myHolder, final int i) {
         //Get Data
         final String hisUid = usersList.get(i).getUid();
         String userImage = usersList.get(i).getImage();
-        String userName = usersList.get(i).getName();
+        final String userName = usersList.get(i).getName();
         final String userEmail = usersList.get(i).getEmail();
 
         //Set Data
@@ -62,6 +77,9 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
         catch(Exception e){
 
         }
+
+        myHolder.blockIv.setImageResource(R.drawable.ic_unblocked_green);
+        checkIsBlocked(hisUid, myHolder, i);
         //handle item exception
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,9 +96,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
                         }
                         if (which == 1){
                             //chat clicked
-                            Intent intent = new Intent(context, ChatActivity.class);
-                            intent.putExtra("hisUid", hisUid);
-                            context.startActivity(intent);
+                            imBlockedORNot(hisUid);
                         }
                     }
                 });
@@ -89,8 +105,117 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
         });
 
 
+        myHolder.blockIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (usersList.get(i).isBlocked()){
+                        unBlockUser(hisUid);
+                }else {
+                    blockedUser(hisUid);
+                }
+            }
+        });
+
+    }
+    private void imBlockedORNot(final String hisUid){
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(hisUid).child("BlockedUsers").orderByChild("uid").equalTo(myUid)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds:dataSnapshot.getChildren()){
+                            if(ds.exists()){
+                                Toast.makeText(context, "You 're blocked by that user, can't send message", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        Intent intent = new Intent(context, ChatActivity.class);
+                        intent.putExtra("hisUid", hisUid);
+                        context.startActivity(intent);
+                    }
 
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    private void checkIsBlocked(String hisUid, final MyHolder myHolder, final int i) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).child("BlockedUsers").orderByChild("uid").equalTo(hisUid)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds:dataSnapshot.getChildren()){
+                            if(ds.exists()){
+                                myHolder.blockIv.setImageResource(R.drawable.ic_blocked_red);
+                                usersList.get(i).setBlocked(true);
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    private void blockedUser(String hisUid) {
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("uid", hisUid);
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(myUid).child("BlockedUsers").child(hisUid).setValue(hashMap)
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "Blocked Successfully...", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, "Failed: "+e.getMessage() , Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void unBlockUser(String hisUid) {
+
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(myUid).child("BlockedUsers").orderByChild("uid").equalTo(hisUid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                            if(ds.exists()){
+                                ds.getRef().removeValue()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(context, "Unblocked Successfully...", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(context, "Failed: "+e.getMessage() , Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     @Override
@@ -101,7 +226,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
     //View holder class
      class MyHolder extends RecyclerView.ViewHolder{
 
-        ImageView mAvatarIv;
+        ImageView mAvatarIv, blockIv;
         TextView mNameTv, mEmailTv;
 
          public MyHolder(@NonNull View itemView) {
@@ -109,6 +234,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
 
              //init view
              mAvatarIv = itemView.findViewById(R.id.avatarIv);
+             blockIv = itemView.findViewById(R.id.blockIv);
              mNameTv = itemView.findViewById(R.id.nameTv);
              mEmailTv = itemView.findViewById(R.id.emailTv);
 
