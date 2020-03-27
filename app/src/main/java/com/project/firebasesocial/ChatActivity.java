@@ -257,13 +257,15 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         readMessages();
+
         checkIsBlocked();
+
         seenMessage();
     }
 
     private void checkIsBlocked() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(myUid).child("BlockedUsers").orderByChild("uid").equalTo(hisUid)
+        ref.child(firebaseAuth.getUid()).child("BlockedUsers").orderByChild("uid").equalTo(hisUid)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

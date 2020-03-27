@@ -9,11 +9,12 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentPadding="10dp" />
+        app:contentPadding="10dp" >
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/postSwitch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Poat Notifications"/>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>
