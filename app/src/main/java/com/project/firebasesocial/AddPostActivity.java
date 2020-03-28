@@ -138,7 +138,7 @@ public class AddPostActivity extends AppCompatActivity {
         } else {
             //add
             actionBar.setTitle("Add New Post");
-            uploadBtn.setText("Upload");
+            uploadBtn.setText("Publish");
         }
 
         actionBar.setSubtitle(email);
@@ -194,8 +194,10 @@ public class AddPostActivity extends AppCompatActivity {
                     beginUpdate(title, desc, editPostId);
                 } else {
                     uploadData(title, desc);
-                    startActivity(new Intent(AddPostActivity.this, DashboardActivity.class));
-                    finish();
+
+//                    go to dashboard activity after pressing uploadBtn
+//                    startActivity(new Intent(AddPostActivity.this, DashboardActivity.class));
+//                    finish();
                 }
 
 
