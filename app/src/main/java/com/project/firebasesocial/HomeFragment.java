@@ -115,8 +115,9 @@ public class HomeFragment extends Fragment {
 
     private void checkUserStatus() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
 
+        if (user != null) {
+            return;
         } else {
             startActivity(new Intent(getActivity(), MainActivity.class));
             getActivity().finish();
