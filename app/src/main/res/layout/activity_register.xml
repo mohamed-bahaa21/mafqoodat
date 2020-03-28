@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/passwordTIL"
             android:layout_centerHorizontal="true"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/btn_gradient"
             android:text="Register"
             android:textColor="@color/white" />
 
