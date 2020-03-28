@@ -170,6 +170,7 @@ public class PostDetailActivity extends AppCompatActivity {
         });
 
     }
+
     private void shareTextOnly(String pTitle, String pDesc) {
         String shareBody = pTitle +"\n"+ pDesc;
         Intent sIntent = new Intent(Intent.ACTION_SEND);
@@ -395,13 +396,11 @@ public class PostDetailActivity extends AppCompatActivity {
                         postsRef.child(postId).child("pLikes").setValue(""+(Integer.parseInt(pLikes)-1));
                         likesRef.child(postId).child(myUid).removeValue();
                         mProcessLike = false;
-
                     }else{
                         //not Liked, Like it
                         postsRef.child(postId).child("pLikes").setValue(""+(Integer.parseInt(pLikes)+1));
                         likesRef.child(postId).child(myUid).setValue("Liked");
                         mProcessLike = false;
-
                     }
                 }
             }

@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -77,6 +78,7 @@ public class AddPostActivity extends AppCompatActivity {
 
     //views
     EditText titleEt, descEt;
+    TextView pUploadImage;
     ImageView imageIv;
     Button uploadBtn;
 
@@ -110,6 +112,7 @@ public class AddPostActivity extends AppCompatActivity {
 
         titleEt = findViewById(R.id.pTitleEt);
         descEt = findViewById(R.id.pDescEt);
+        pUploadImage = findViewById(R.id.pUploadImage);
         imageIv = findViewById(R.id.pImageIv);
         uploadBtn = findViewById(R.id.pUploadBtn);
 
@@ -151,6 +154,12 @@ public class AddPostActivity extends AppCompatActivity {
         });
 
         //get image from camera/gallery on click
+        pUploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImagePickDialog();
+            }
+        });
         imageIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,6 +185,8 @@ public class AddPostActivity extends AppCompatActivity {
                     beginUpdate(title, desc, editPostId);
                 } else {
                     uploadData(title, desc);
+                    startActivity(new Intent(AddPostActivity.this, DashboardActivity.class));
+                    finish();
                 }
 
 

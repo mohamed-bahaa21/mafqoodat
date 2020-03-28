@@ -54,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:text="online"
                 android:textColor="@color/white"
-                android:textStyle="bold"/>
+                android:textStyle="normal"
+                android:textSize="12sp"/>
 
 
         </LinearLayout>

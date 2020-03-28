@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-<!--            cover photo -->
+            <!-- cover photo -->
             <ImageView
                 android:id="@+id/coverIv"
                 android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:src="@drawable/ic_default_img_white"
+                    android:src="@drawable/ic_default"
                     android:background="@color/colorPrimary"/>
 
                 <LinearLayout
@@ -80,12 +80,14 @@
                 android:id="@+id/recyclerview_posts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/linearLayout"/>
+                android:layout_below="@id/linearLayout"
+                android:layout_marginTop="8dp"/>
 
         </RelativeLayout>
+
     </ScrollView>
 
-<!--    floating action button-->
+    <!-- floating action button-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:src="@drawable/ic_edit_white"

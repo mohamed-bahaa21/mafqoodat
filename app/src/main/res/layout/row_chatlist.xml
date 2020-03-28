@@ -14,38 +14,42 @@
             android:id="@+id/profileIv"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_default_img"/>
+            android:src="@drawable/ic_default_img"
+            android:layout_margin="8dp"/>
+
         <!--        online/offline status -->
         <ImageView
             android:id="@+id/onlineStatusIv"
             android:layout_width="25dp"
             android:layout_height="25dp"/>
 
-<!--        user name -->
-        <TextView
-            android:id="@+id/nameTv"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="His Name"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="8dp"
             android:layout_toEndOf="@id/profileIv"
-            android:layout_toRightOf="@id/profileIv"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp" />
+            android:layout_toRightOf="@id/profileIv">
 
-<!--        last message -->
-        <TextView
-            android:id="@+id/lastMessageTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
-            android:maxLines="2"
-            android:text="The Last Message"
-            android:layout_toEndOf="@id/profileIv"
-            android:layout_toRightOf="@id/profileIv"
-            android:layout_below="@id/nameTv"/>
+            <!--        user name -->
+            <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="His Name"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <!--        last message -->
+            <TextView
+                android:id="@+id/lastMessageTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="The Last Message" />
+
+        </LinearLayout>
 
 
     </RelativeLayout>

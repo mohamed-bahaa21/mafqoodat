@@ -15,6 +15,6 @@
         android:id="@+id/postSwitch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Poat Notifications"/>
+        android:text="New Posts Notifications"/>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

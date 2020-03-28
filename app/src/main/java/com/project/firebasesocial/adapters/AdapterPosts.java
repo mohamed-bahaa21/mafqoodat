@@ -85,6 +85,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
+
         final String uid = postList.get(i).getUid();
         String email = postList.get(i).getEmail();
         String name = postList.get(i).getName();
@@ -170,21 +171,23 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                 mProcessLike = true;
                 //get id of the post clicked
                 final String postIde = postList.get(i).getpId();
-                likesRef.addValueEventListener(new ValueEventListener() {
+
+                likesRef.orderByChild("pTime").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if ( mProcessLike ){
-                            if ( dataSnapshot.child(postIde).hasChild(myUid)){
+                        if (mProcessLike){
+                            if (dataSnapshot.child(postIde).hasChild(myUid)){
                                 //already liked so remove likes
+                                Toast.makeText(context, "Remove Like", Toast.LENGTH_SHORT).show();
                                 postRef.child(postIde).child("pLikes").setValue(""+(pLikes-1));
                                 likesRef.child(postIde).child(myUid).removeValue();
                                 mProcessLike = false;
                             }else{
                                 //not Liked, Like it
+                                Toast.makeText(context, "Add Like", Toast.LENGTH_SHORT).show();
                                 postRef.child(postIde).child("pLikes").setValue(""+(pLikes+1));
                                 likesRef.child(postIde).child(myUid).setValue("Liked");
                                 mProcessLike = false;
-
                             }
                         }
                     }
@@ -249,8 +252,6 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         }
         return uri;
     }
-
-
 
     private void setLike(final MyHolder holder, final String postKey) {
         likesRef.addValueEventListener(new ValueEventListener() {
@@ -422,4 +423,5 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             profileLayout = itemView.findViewById(R.id.profileLayout);
         }
     }
+
 }

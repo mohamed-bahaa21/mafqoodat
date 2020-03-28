@@ -43,15 +43,12 @@ public class AdapterComments extends RecyclerView.Adapter<AdapterComments.MyHold
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
         View view = LayoutInflater.from(context).inflate(R.layout.row_comments, viewGroup, false);
-
         return new MyHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
-
         final String uid = commentList.get(i).getUid();
         String name = commentList.get(i).getuName();
         String email = commentList.get(i).getuEmail();
@@ -60,51 +57,45 @@ public class AdapterComments extends RecyclerView.Adapter<AdapterComments.MyHold
         String comment = commentList.get(i).getComment();
         String timestamp = commentList.get(i).getTimestamp();
 
-
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.setTimeInMillis(Long.parseLong(timestamp));
         String pTime = DateFormat.format("dd/MM/yyy hh:mm aa", calendar).toString();
-
 
         myHolder.nameTv.setText(name);
         myHolder.commentTv.setText(comment);
         myHolder.itmeTv.setText(pTime);
 
         try{
-
             Picasso.get().load(image).placeholder(R.drawable.ic_default_img).into(myHolder.avatarIv);
+        }catch (Exception e){}
 
-        }catch (Exception e){
-
-            myHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (myUid.equals(uid)){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-                        builder.setTitle("Delete");
-                        builder.setMessage("Are you sure to delete this comment?");
-                        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //delete comment
-                                deleteComment(cid);
-                            }
-                        });
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //dismiss dialog
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.create().show();
-                    }else{
-                        Toast.makeText(context, "Can't delete other comments...", Toast.LENGTH_SHORT).show();
+        myHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myUid.equals(uid)){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
+                    builder.setTitle("Delete");
+                    builder.setMessage("Are you sure to delete this comment?");
+                    builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //delete comment
+                            deleteComment(cid);
                         }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //dismiss dialog
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+                }else{
+                    Toast.makeText(context, "Can't delete other comments...", Toast.LENGTH_SHORT).show();
                 }
-            });
-
-        }
+            }
+        });
 
     }
 

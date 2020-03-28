@@ -120,6 +120,8 @@ public class ProfileFragment extends Fragment {
         fab = view.findViewById(R.id.fab);
         postsRecyclerView = view.findViewById(R.id.recyclerview_posts);
 
+        avatarIv.setImageResource(R.drawable.ic_default);
+
         pd = new ProgressDialog(getActivity());
 
         Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
@@ -139,17 +141,19 @@ public class ProfileFragment extends Fragment {
 
                     try {
                         // if image is received then set
-                        Picasso.get().load(image).into(avatarIv);
+                        Picasso.get().load(image).fit().into(avatarIv);
                     } catch (Exception e){
                         //if there is any exception while getting image then set default
-                        Picasso.get().load(R.drawable.ic_default_img_white).into(avatarIv);
+                        Toast.makeText(getContext(), "Couldn't Load Image", Toast.LENGTH_SHORT).show();
+//                        Picasso.get().load(R.drawable.ic_default_img_white).into(avatarIv);
                     }
                     try {
                         // if image is received then set
                         Picasso.get().load(cover).into(coverIv);
                     } catch (Exception e){
                         //if there is any exception while getting image then set default
-                        Picasso.get().load(R.drawable.ic_default_img_white).into(avatarIv);
+                        Toast.makeText(getContext(), "Couldn't Load Image", Toast.LENGTH_SHORT).show();
+//                        Picasso.get().load(R.drawable.ic_default_img_white).into(avatarIv);
                     }
                 }
             }

@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@+id/timeTv" />
+
         <ImageView
             android:id="@+id/messageIv"
             android:layout_width="200dp"

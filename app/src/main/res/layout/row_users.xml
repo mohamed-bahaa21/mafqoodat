@@ -20,24 +20,28 @@
             android:layout_height="70dp"/>
 
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="8dp">
+
             <TextView
                 android:id="@+id/nameTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/person_name"
-                android:textSize="18sp"
-                android:textColor="@color/black"/>
+                android:text="His Name"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
             <TextView
                 android:id="@+id/emailTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Person Email"
-                android:textColor="@color/black"/>
+                android:maxLines="2"
+                android:text="User Email" />
+
         </LinearLayout>
+
         <ImageView
             android:id="@+id/blockIv"
             android:layout_gravity="center_vertical"

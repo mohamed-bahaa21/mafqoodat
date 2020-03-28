@@ -50,20 +50,22 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:layout_marginLeft="8dp">
 
                             <TextView
                                 android:id="@+id/uNameTv"
                                 android:text="Name"
                                 android:textColor="@color/black"
-                                android:textSize="20sp"
+                                android:textSize="18sp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <TextView
                                 android:id="@+id/pTimeTv"
-                                android:text="33 min"
+                                android:text="18 min"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"/>
 
                         </LinearLayout>
 
@@ -83,7 +85,8 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:text="Title"
-                        android:autoLink="all"/>
+                        android:autoLink="all"
+                        android:layout_marginTop="8dp"/>
 
                     <TextView
                         android:id="@+id/pDescriptionTv"
@@ -91,18 +94,21 @@
                         android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autoLink="all"/>
+                        android:autoLink="all"
+                        android:layout_marginTop="8dp"/>
 
                     <ImageView
                         android:id="@+id/pImageIv"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:background="@color/white"/>
+                        android:background="@color/white"
+                        android:layout_marginTop="8dp"/>
                     
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
 
                         <TextView
                             android:id="@+id/pLikesTv"
@@ -126,34 +132,41 @@
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:background="#FF9205" />
+                        android:background="#FF9205"
+                        android:layout_marginTop="8dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center">
+                        android:gravity="left">
 
                         <Button
                             android:id="@+id/likeBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="0"
                             android:text="Like"
+                            android:textSize="12sp"
                             android:background="@color/white"
                             android:drawableLeft="@drawable/ic_like_black"
-                            android:drawablePadding="5dp"/>
+                            android:drawablePadding="5dp"
+                            style="?android:attr/borderlessButtonStyle"/>
 
                         <Button
                             android:id="@+id/shareBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="0"
                             android:text="SHARE"
+                            android:textSize="12sp"
                             android:background="@color/white"
                             android:drawableLeft="@drawable/ic_share_black"
                             android:drawablePadding="5dp"
-                            android:drawableStart="@drawable/ic_share_black"/>
+                            android:drawableStart="@drawable/ic_share_black"
+                            android:layout_marginLeft="8dp"
+                            style="?android:attr/borderlessButtonStyle"/>
+
                     </LinearLayout>
 
                 </LinearLayout>
