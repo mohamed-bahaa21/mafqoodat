@@ -40,6 +40,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.firebasesocial.AddPostActivity;
 import com.project.firebasesocial.PostDetailActivity;
+import com.project.firebasesocial.PostLikedByActivity;
 import com.project.firebasesocial.R;
 import com.project.firebasesocial.ThereProfileActivity;
 import com.project.firebasesocial.models.ModelPost;
@@ -204,6 +205,17 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                 context.startActivity(intent);
             }
         });
+
+        //click like count to start PostLikedByActivity, and pass the post id
+        myHolder.pLikesTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PostLikedByActivity.class);
+                intent.putExtra("postId", pId);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     private void addToHisNotifications(String hisUid, String pId, String notification) {
