@@ -144,16 +144,14 @@ public class ProfileFragment extends Fragment {
                         Picasso.get().load(image).fit().into(avatarIv);
                     } catch (Exception e){
                         //if there is any exception while getting image then set default
-                        Toast.makeText(getContext(), "Couldn't Load Image", Toast.LENGTH_SHORT).show();
-//                        Picasso.get().load(R.drawable.ic_default_img_white).into(avatarIv);
+                        Picasso.get().load(R.drawable.ic_default_img_white).fit().into(avatarIv);
                     }
                     try {
                         // if image is received then set
                         Picasso.get().load(cover).into(coverIv);
                     } catch (Exception e){
                         //if there is any exception while getting image then set default
-                        Toast.makeText(getContext(), "Couldn't Load Image", Toast.LENGTH_SHORT).show();
-//                        Picasso.get().load(R.drawable.ic_default_img_white).into(avatarIv);
+                        Picasso.get().load(R.color.colorPrimary).fit().into(coverIv);
                     }
                 }
             }
