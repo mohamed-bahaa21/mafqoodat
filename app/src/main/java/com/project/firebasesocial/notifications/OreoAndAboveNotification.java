@@ -10,8 +10,6 @@ import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
-
 public class OreoAndAboveNotification extends ContextWrapper {
 
     private static final String ID = "some_id";
@@ -21,13 +19,13 @@ public class OreoAndAboveNotification extends ContextWrapper {
 
     public OreoAndAboveNotification(Context base) {
         super(base);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel();
         }
     }
 
 
-    @TargetApi( Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.O)
     private void createChannel() {
         NotificationChannel notificationChannel = new NotificationChannel(ID, NAME, NotificationManager.IMPORTANCE_DEFAULT);
         notificationChannel.enableLights(true);
@@ -36,19 +34,19 @@ public class OreoAndAboveNotification extends ContextWrapper {
         getManager().createNotificationChannel(notificationChannel);
     }
 
-    public NotificationManager getManager(){
-        if(notificationManager == null){
-            notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+    public NotificationManager getManager() {
+        if (notificationManager == null) {
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
         return notificationManager;
     }
 
-    @TargetApi( Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.O)
     public Notification.Builder getONotifications(String title,
                                                   String body,
                                                   PendingIntent pIntent,
                                                   Uri soundUri,
-                                                  String icon){
+                                                  String icon) {
 
         return new Notification.Builder(getApplicationContext(), ID)
                 .setContentIntent(pIntent)

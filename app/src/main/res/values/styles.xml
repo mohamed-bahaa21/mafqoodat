@@ -8,15 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-<!--    for activities containing toolbar -->
-<!--    theme without actionbar -->
+    <!--    for activities containing toolbar -->
+    <!--    theme without actionbar -->
     <style name="AppThemeNo" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

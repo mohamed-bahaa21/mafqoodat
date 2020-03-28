@@ -6,7 +6,7 @@ public class ModelUser {
     String name, email, search, phone, image, cover, uid, onlineStatus, typingTo;
     boolean isBlocked = false;
 
-    public ModelUser(){
+    public ModelUser() {
 
     }
 

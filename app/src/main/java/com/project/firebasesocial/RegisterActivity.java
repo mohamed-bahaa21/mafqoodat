@@ -1,9 +1,5 @@
 package com.project.firebasesocial;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -69,16 +69,15 @@ public class RegisterActivity extends AppCompatActivity {
                 String name = mNameEt.getText().toString().trim();
                 String phone = mPhoneEt.getText().toString().trim();
 
-                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     mEmailEt.setError("Invalid Email");
-                } else if (password.length() < 6){
+                } else if (password.length() < 6) {
                     mPasswordEt.setError("Password Length at least 6 charachters");
-                } else if(name.length() < 3){
+                } else if (name.length() < 3) {
                     mNameEt.setError("Name Length at least 3 charachters");
-                } else if(!Patterns.PHONE.matcher(phone).matches()){
+                } else if (!Patterns.PHONE.matcher(phone).matches()) {
                     mPhoneEt.setError("Invalid Phone");
-                }
-                else {
+                } else {
                     registerUser(email, password, name, phone);
                 }
             }
@@ -97,52 +96,52 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.show();
 
         mAuth.createUserWithEmailAndPassword(email, password)
-        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                    progressDialog.dismiss();
-                    FirebaseUser user = mAuth.getCurrentUser();
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            progressDialog.dismiss();
+                            FirebaseUser user = mAuth.getCurrentUser();
 
-                    // get user email & uid from auth
-                    String email = user.getEmail();
-                    String uid = user.getUid();
-                    //when user is registered store user info in firebase realtime database too using hashmap
-                    HashMap<Object, String> hashMap = new HashMap<>();
-                    // put info in hashmap
-                    hashMap.put("email", email);
-                    hashMap.put("uid", uid);
-                    hashMap.put("name", name); // will add later (e.g. edit profile)
-                    hashMap.put("onlineStatus", "online"); // will add later (e.g. edit profile)
-                    hashMap.put("typingTo", "noOne"); // will add later (e.g. edit profile)
-                    hashMap.put("phone", phone); // will add later (e.g. edit profile)
-                    hashMap.put("image", ""); // will add later (e.g. edit profile)
-                    hashMap.put("cover", ""); // will add later (e.g. edit profile)
+                            // get user email & uid from auth
+                            String email = user.getEmail();
+                            String uid = user.getUid();
+                            //when user is registered store user info in firebase realtime database too using hashmap
+                            HashMap<Object, String> hashMap = new HashMap<>();
+                            // put info in hashmap
+                            hashMap.put("email", email);
+                            hashMap.put("uid", uid);
+                            hashMap.put("name", name); // will add later (e.g. edit profile)
+                            hashMap.put("onlineStatus", "online"); // will add later (e.g. edit profile)
+                            hashMap.put("typingTo", "noOne"); // will add later (e.g. edit profile)
+                            hashMap.put("phone", phone); // will add later (e.g. edit profile)
+                            hashMap.put("image", ""); // will add later (e.g. edit profile)
+                            hashMap.put("cover", ""); // will add later (e.g. edit profile)
 
-                    //firebase database instance
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    // path to store user data named "Users"
-                    DatabaseReference reference = database.getReference("Users");
-                    //put data within hashmap in database
-                    reference.child(uid).setValue(hashMap);
+                            //firebase database instance
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            // path to store user data named "Users"
+                            DatabaseReference reference = database.getReference("Users");
+                            //put data within hashmap in database
+                            reference.child(uid).setValue(hashMap);
 
 
-                    Toast.makeText(RegisterActivity.this, "Registered... \n"+user.getEmail(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
-                    finish();
-                } else {
-                    // If sign in fails, display a message to the user.
-                    progressDialog.dismiss();
-                    Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                            Toast.makeText(RegisterActivity.this, "Registered... \n" + user.getEmail(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(RegisterActivity.this, DashboardActivity.class));
+                            finish();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            progressDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

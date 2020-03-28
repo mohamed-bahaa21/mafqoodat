@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class AdapterComments extends RecyclerView.Adapter<AdapterComments.MyHolder>{
+public class AdapterComments extends RecyclerView.Adapter<AdapterComments.MyHolder> {
 
     Context context;
     List<ModelComment> commentList;
@@ -65,14 +65,15 @@ public class AdapterComments extends RecyclerView.Adapter<AdapterComments.MyHold
         myHolder.commentTv.setText(comment);
         myHolder.itmeTv.setText(pTime);
 
-        try{
+        try {
             Picasso.get().load(image).placeholder(R.drawable.ic_default_img).into(myHolder.avatarIv);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
 
         myHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myUid.equals(uid)){
+                if (myUid.equals(uid)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
                     builder.setTitle("Delete");
                     builder.setMessage("Are you sure to delete this comment?");
@@ -91,7 +92,7 @@ public class AdapterComments extends RecyclerView.Adapter<AdapterComments.MyHold
                         }
                     });
                     builder.create().show();
-                }else{
+                } else {
                     Toast.makeText(context, "Can't delete other comments...", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -109,7 +110,7 @@ public class AdapterComments extends RecyclerView.Adapter<AdapterComments.MyHold
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String comments = "" + dataSnapshot.child("pComments").getValue();
                 int newCommentVal = Integer.parseInt(comments) - 1;
-                ref.child("pComments").setValue(""+newCommentVal);
+                ref.child("pComments").setValue("" + newCommentVal);
             }
 
             @Override

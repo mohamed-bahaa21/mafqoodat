@@ -5,7 +5,8 @@ public class Data {
     private String user, body, title, sent, notificationType;
     private Integer icon;
 
-    public Data() {}
+    public Data() {
+    }
 
     public Data(String user, String body, String title, String sent, String notificationType, Integer icon) {
         this.user = user;

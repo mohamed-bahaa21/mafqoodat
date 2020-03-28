@@ -2,14 +2,6 @@ package com.project.firebasesocial;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.MenuItemCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,8 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -75,7 +73,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 postList.clear();
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ModelPost modelPost = ds.getValue(ModelPost.class);
                     postList.add(modelPost);
                     adapterPosts = new AdapterPosts(getActivity(), postList);
@@ -85,22 +83,22 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void searchPosts(final String searchQuery){
+    private void searchPosts(final String searchQuery) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 postList.clear();
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ModelPost modelPost = ds.getValue(ModelPost.class);
-                    if(modelPost.getpTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
-                            modelPost.getpDesc().toLowerCase().contains(searchQuery.toLowerCase())){
+                    if (modelPost.getpTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                            modelPost.getpDesc().toLowerCase().contains(searchQuery.toLowerCase())) {
                         postList.add(modelPost);
                     }
                     adapterPosts = new AdapterPosts(getActivity(), postList);
@@ -110,14 +108,14 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), ""+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void checkUserStatus(){
+    private void checkUserStatus() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if(user != null){
+        if (user != null) {
 
         } else {
             startActivity(new Intent(getActivity(), MainActivity.class));
@@ -144,7 +142,7 @@ public class HomeFragment extends Fragment {
                 //Called when user click search button
                 if (!TextUtils.isEmpty(s)) {
                     searchPosts(s);
-                }else {
+                } else {
                     loadPosts();
                 }
                 return false;
@@ -155,7 +153,7 @@ public class HomeFragment extends Fragment {
                 //called when user press any letter
                 if (!TextUtils.isEmpty(s)) {
                     searchPosts(s);
-                }else {
+                } else {
                     loadPosts();
                 }
                 return false;
@@ -168,14 +166,12 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_logout) {
+        if (id == R.id.action_logout) {
             firebaseAuth.signOut();
             checkUserStatus();
-        }
-        else if(id == R.id.action_add_post) {
+        } else if (id == R.id.action_add_post) {
             startActivity(new Intent(getActivity(), AddPostActivity.class));
-        }
-        else if (id == R.id.action_Settings){
+        } else if (id == R.id.action_Settings) {
 
             startActivity(new Intent(getActivity(), SettingsActivity.class));
         }

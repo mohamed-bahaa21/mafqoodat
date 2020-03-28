@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".RegisterActivity"
+    android:gravity="center"
     android:orientation="vertical"
-    android:gravity="center">
+    tools:context=".RegisterActivity">
 
     <ImageView
         android:layout_width="110dp"
@@ -22,27 +22,27 @@
         android:layout_height="wrap_content"
         android:text="Registration"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailTIL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         app:passwordToggleEnabled="true"
-        tools:ignore="MissingConstraints"
-        android:layout_marginTop="32dp">
+        tools:ignore="MissingConstraints">
 
         <EditText
+            android:id="@+id/emailEt"
             android:layout_width="245dp"
             android:layout_height="45dp"
-            android:id="@+id/emailEt"
-            android:inputType="textEmailAddress"
-            android:hint="Email"
             android:background="#F6F6F6"
             android:drawableLeft="@drawable/username"
             android:drawablePadding="10dp"
             android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             android:padding="10dp"
             android:textColor="#000000"
             android:textColorHint="#000000"
@@ -58,16 +58,16 @@
         tools:ignore="MissingConstraints">
 
         <EditText
+            android:id="@+id/passwordEt"
             android:layout_width="245dp"
             android:layout_height="45dp"
-            android:id="@+id/passwordEt"
-            android:inputType="textPassword"
-            android:hint="Password"
             android:layout_marginTop="8dp"
             android:background="#F6F6F6"
             android:drawableLeft="@drawable/password"
             android:drawablePadding="10dp"
             android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="#000000"
             android:textColorHint="#000000"
@@ -83,16 +83,16 @@
         tools:ignore="MissingConstraints">
 
         <EditText
+            android:id="@+id/nameEt"
             android:layout_width="245dp"
             android:layout_height="45dp"
-            android:id="@+id/nameEt"
-            android:inputType="textPersonName"
-            android:hint="Full Name"
             android:layout_marginTop="8dp"
             android:background="#F6F6F6"
             android:drawableLeft="@drawable/username"
             android:drawablePadding="10dp"
             android:ems="10"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
             android:padding="10dp"
             android:textColor="#000000"
             android:textColorHint="#000000"
@@ -108,16 +108,16 @@
         tools:ignore="MissingConstraints">
 
         <EditText
+            android:id="@+id/phoneEt"
             android:layout_width="245dp"
             android:layout_height="45dp"
-            android:id="@+id/phoneEt"
-            android:hint="Mobile Number"
-            android:inputType="textPhonetic"
             android:layout_marginTop="8dp"
             android:background="#F6F6F6"
             android:drawableLeft="@drawable/username"
             android:drawablePadding="10dp"
             android:ems="10"
+            android:hint="Mobile Number"
+            android:inputType="textPhonetic"
             android:padding="10dp"
             android:textColor="#000000"
             android:textColorHint="#000000"
@@ -128,19 +128,19 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginTop="32dp"
         android:gravity="center"
-        android:layout_marginTop="32dp">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/registerBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register"
             android:layout_below="@id/passwordTIL"
+            android:layout_centerHorizontal="true"
             android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:layout_centerHorizontal="true"/>
+            android:text="Register"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/have_accountTv"
@@ -169,78 +169,77 @@
 
 </LinearLayout>
 
-<!-- Old Register -->
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    tools:context=".RegisterActivity"-->
-<!--    android:padding="20dp">-->
-<!--    -->
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="center_horizontal"-->
-<!--        android:text="Register"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textSize="25sp"/>-->
+    <!-- Old Register -->
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    tools:context=".RegisterActivity"-->
+    <!--    android:padding="20dp">-->
+    <!--    -->
+    <!--    <TextView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:gravity="center_horizontal"-->
+    <!--        android:text="Register"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textSize="25sp"/>-->
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_centerVertical="true"-->
-<!--        android:id="@+id/emailTIL">-->
-<!--        -->
-<!--        <EditText-->
-<!--            android:id="@+id/emailEt"-->
-<!--            android:inputType="textEmailAddress"-->
-<!--            android:hint="Email"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
-<!--        -->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_centerVertical="true"-->
+    <!--        android:id="@+id/emailTIL">-->
+    <!--        -->
+    <!--        <EditText-->
+    <!--            android:id="@+id/emailEt"-->
+    <!--            android:inputType="textEmailAddress"-->
+    <!--            android:hint="Email"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"/>-->
+    <!--        -->
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_centerVertical="true"-->
-<!--        android:id="@+id/passwordTIL"-->
-<!--        app:passwordToggleEnabled="true"-->
-<!--        android:layout_below="@id/emailTIL">-->
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_centerVertical="true"-->
+    <!--        android:id="@+id/passwordTIL"-->
+    <!--        app:passwordToggleEnabled="true"-->
+    <!--        android:layout_below="@id/emailTIL">-->
 
-<!--        <EditText-->
-<!--            android:id="@+id/passwordEt"-->
-<!--            android:inputType="textPassword"-->
-<!--            android:hint="Password"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
+    <!--        <EditText-->
+    <!--            android:id="@+id/passwordEt"-->
+    <!--            android:inputType="textPassword"-->
+    <!--            android:hint="Password"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"/>-->
 
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
 
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Register"-->
-<!--        android:layout_below="@id/passwordTIL"-->
-<!--        style="@style/Widget.AppCompat.Button.Colored"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:id="@+id/registerBtn"/>-->
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Register"-->
+    <!--        android:layout_below="@id/passwordTIL"-->
+    <!--        style="@style/Widget.AppCompat.Button.Colored"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:id="@+id/registerBtn"/>-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/have_accountTv"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Already have account? Login"-->
-<!--        android:gravity="center"-->
-<!--        android:layout_below="@id/registerBtn"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        android:textColor="@color/black"-->
-<!--        />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/have_accountTv"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Already have account? Login"-->
+    <!--        android:gravity="center"-->
+    <!--        android:layout_below="@id/registerBtn"-->
+    <!--        android:layout_marginTop="30dp"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        />-->
 
 
-
-<!--</RelativeLayout>-->
+    <!--</RelativeLayout>-->

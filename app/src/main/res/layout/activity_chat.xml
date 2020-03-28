@@ -15,72 +15,73 @@
         android:background="@color/colorPrimaryDark"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal">
-
-        <com.blogspot.atifsoftwares.circularimageview.CircularImageView
-            android:id="@+id/profileIV"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_default"
-            app:c_background_color="@color/colorPrimaryDark"/>
-
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal">
 
-<!--            receiver name -->
-            <TextView
-                android:id="@+id/nameTv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="His name"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+            <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+                android:id="@+id/profileIV"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_default"
+                app:c_background_color="@color/colorPrimaryDark" />
 
-<!--            receiver status -->
-            <TextView
-                android:id="@+id/userStatusTv"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="online"
-                android:textColor="@color/white"
-                android:textStyle="normal"
-                android:textSize="12sp"/>
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <!--            receiver name -->
+                <TextView
+                    android:id="@+id/nameTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="His name"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!--            receiver status -->
+                <TextView
+                    android:id="@+id/userStatusTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="online"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/blockIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_unblocked_green" />
 
 
         </LinearLayout>
-          <ImageView
-              android:layout_marginEnd="5dp"
-              android:id="@+id/blockIv"
-              android:layout_gravity="center_vertical"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:src="@drawable/ic_unblocked_green"
-              android:layout_marginRight="5dp" />
-
-
-      </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-<!--    RecyclerView -->
+    <!--    RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/chatLayout"/>
+        android:layout_above="@id/chatLayout"
+        android:layout_below="@id/toolbar" />
 
-<!--    Send Message edit text and Button in layout -->
+    <!--    Send Message edit text and Button in layout -->
     <LinearLayout
         android:id="@+id/chatLayout"
         android:layout_width="match_parent"
@@ -95,24 +96,24 @@
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:background="@null"
-            android:src="@drawable/ic_attach_black"/>
-        
+            android:src="@drawable/ic_attach_black" />
+
         <EditText
             android:id="@+id/messageEt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
             android:hint="Start Typing"
-            android:padding="15dp"
             android:inputType="textCapSentences|textMultiLine"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:padding="15dp" />
 
         <ImageButton
             android:id="@+id/sendBtn"
-            android:background="@null"
-            android:src="@drawable/ic_send"
             android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:background="@null"
+            android:src="@drawable/ic_send" />
 
     </LinearLayout>
 

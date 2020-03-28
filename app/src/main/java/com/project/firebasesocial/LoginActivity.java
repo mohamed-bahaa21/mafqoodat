@@ -1,9 +1,5 @@
 package com.project.firebasesocial;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -17,6 +13,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -87,10 +87,10 @@ public class LoginActivity extends AppCompatActivity {
                 String email = mEmailEt.getText().toString().trim();
                 String password = mPasswordEt.getText().toString().trim();
 
-                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     mEmailEt.setError("Invalid Email");
                     mEmailEt.setFocusable(true);
-                } else if (password.length() < 6){
+                } else if (password.length() < 6) {
                     mPasswordEt.setError("Password Length at least 6 charachters");
                 } else {
                     loginUser(email, password);
@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         emailEt.setMinEms(16);
 
         linearLayout.addView(emailEt);
-        linearLayout.setPadding(10,10,10,10);
+        linearLayout.setPadding(10, 10, 10, 10);
 
         builder.setView(linearLayout);
 
@@ -167,10 +167,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 pd.dismiss();
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Email Sent", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Toast.makeText(LoginActivity.this, "Failed...", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -178,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
-                Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -187,27 +186,27 @@ public class LoginActivity extends AppCompatActivity {
         pd.setMessage("Logging In...");
         pd.show();
         mAuth.signInWithEmailAndPassword(email, password)
-        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    pd.dismiss();
-                    // Sign in success, update UI with the signed-in user's information
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-                    finish();
-                } else {
-                    pd.dismiss();
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(LoginActivity.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            pd.dismiss();
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                            finish();
+                        } else {
+                            pd.dismiss();
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
-                Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -233,64 +232,65 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 // ...
             }
         }
     }
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
-        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                    FirebaseUser user = mAuth.getCurrentUser();
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
 
-                    //if user is signing in first time then get and show user info from google account
-                    if(task.getResult().getAdditionalUserInfo().isNewUser()) {
-                        // get user email & uid from auth
-                        String email = user.getEmail();
-                        String uid = user.getUid();
-                        String name = user.getDisplayName();
-                        String phone = user.getPhoneNumber();
-                        //when user is registered store user info in firebase realtime database too using hashmap
-                        HashMap<Object, String> hashMap = new HashMap<>();
-                        // put info in hashmap
-                        hashMap.put("email", email);
-                        hashMap.put("uid", uid);
-                        hashMap.put("name", name); // will add later (e.g. edit profile)
-                        hashMap.put("onlineStatus", "online"); // will add later (e.g. edit profile)
-                        hashMap.put("typingTo", "noOne"); // will add later (e.g. edit profile)
-                        hashMap.put("phone", phone); // will add later (e.g. edit profile)
-                        hashMap.put("image", ""); // will add later (e.g. edit profile)
-                        hashMap.put("cover", ""); // will add later (e.g. edit profile)
+                            //if user is signing in first time then get and show user info from google account
+                            if (task.getResult().getAdditionalUserInfo().isNewUser()) {
+                                // get user email & uid from auth
+                                String email = user.getEmail();
+                                String uid = user.getUid();
+                                String name = user.getDisplayName();
+                                String phone = user.getPhoneNumber();
+                                //when user is registered store user info in firebase realtime database too using hashmap
+                                HashMap<Object, String> hashMap = new HashMap<>();
+                                // put info in hashmap
+                                hashMap.put("email", email);
+                                hashMap.put("uid", uid);
+                                hashMap.put("name", name); // will add later (e.g. edit profile)
+                                hashMap.put("onlineStatus", "online"); // will add later (e.g. edit profile)
+                                hashMap.put("typingTo", "noOne"); // will add later (e.g. edit profile)
+                                hashMap.put("phone", phone); // will add later (e.g. edit profile)
+                                hashMap.put("image", ""); // will add later (e.g. edit profile)
+                                hashMap.put("cover", ""); // will add later (e.g. edit profile)
 
-                        //firebase database instance
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        // path to store user data named "Users"
-                        DatabaseReference reference = database.getReference("Users");
-                        //put data within hashmap in database
-                        reference.child(uid).setValue(hashMap);
+                                //firebase database instance
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                // path to store user data named "Users"
+                                DatabaseReference reference = database.getReference("Users");
+                                //put data within hashmap in database
+                                reference.child(uid).setValue(hashMap);
+                            }
+
+                            //show user email in toast
+                            Toast.makeText(LoginActivity.this, "" + user.getEmail(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+                            finish();
+                            // updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Login Failed...", Toast.LENGTH_SHORT).show();
+                            // updateUI(null);
+                        }
+
                     }
-
-                    //show user email in toast
-                    Toast.makeText(LoginActivity.this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-                    finish();
-                    // updateUI(user);
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(LoginActivity.this, "Login Failed...", Toast.LENGTH_SHORT).show();
-                    // updateUI(null);
-                }
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

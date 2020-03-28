@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    tools:context=".MainActivity"
-    android:background="@color/white"
-    android:orientation="vertical"
     android:layout_gravity="center"
-    android:gravity="center">
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".MainActivity">
 
     <ImageView
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:src="@drawable/ic_icon"/>
+        android:src="@drawable/ic_icon" />
 
     <Button
         android:id="@+id/register_btn"
-        android:text="Register"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/login_btn"
         android:layout_marginTop="8dp"
-        android:elevation="5dp"/>
+        android:background="@color/colorPrimary"
+        android:elevation="5dp"
+        android:text="Register"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/login_btn"
-        android:text="Login"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:elevation="5dp"/>
+        android:background="@color/colorPrimary"
+        android:elevation="5dp"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
 </LinearLayout>

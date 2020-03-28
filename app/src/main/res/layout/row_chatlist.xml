@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:contentPadding="3dp">
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<!--        user profile image -->
+        <!--        user profile image -->
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:id="@+id/profileIv"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_default_img"
-            android:layout_margin="8dp"/>
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_default_img" />
 
         <!--        online/offline status -->
         <ImageView
             android:id="@+id/onlineStatusIv"
             android:layout_width="25dp"
-            android:layout_height="25dp"/>
+            android:layout_height="25dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
             android:layout_toEndOf="@id/profileIv"
-            android:layout_toRightOf="@id/profileIv">
+            android:layout_toRightOf="@id/profileIv"
+            android:orientation="vertical">
 
             <!--        user name -->
             <TextView
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:text="His Name"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <!--        last message -->
             <TextView
@@ -53,7 +53,6 @@
 
 
     </RelativeLayout>
-
 
 
 </androidx.cardview.widget.CardView>

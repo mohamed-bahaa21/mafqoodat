@@ -23,8 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.project.firebasesocial.models.ModelChat;
 import com.project.firebasesocial.R;
+import com.project.firebasesocial.models.ModelChat;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
+public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder> {
 
     private static final int MSG_TYPE_LEFT = 0;
     private static final int MSG_TYPE_RIGHT = 1;
@@ -42,7 +42,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
 
     FirebaseUser fUser;
 
-    public AdapterChat(Context context, List<ModelChat> chatList, String imageUrl){
+    public AdapterChat(Context context, List<ModelChat> chatList, String imageUrl) {
         this.context = context;
         this.chatList = chatList;
         this.imageUrl = imageUrl;
@@ -51,10 +51,10 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        if(i== MSG_TYPE_RIGHT ){
+        if (i == MSG_TYPE_RIGHT) {
             View view = LayoutInflater.from(context).inflate(R.layout.row_chat_right, viewGroup, false);
             return new MyHolder(view);
-        }else{
+        } else {
             View view = LayoutInflater.from(context).inflate(R.layout.row_chat_left, viewGroup, false);
             return new MyHolder(view);
         }
@@ -71,12 +71,12 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
         cal.setTimeInMillis(Long.parseLong(timeStamp));
         String dateTime = DateFormat.format("dd/MM/yyyy hh:mm aa", cal).toString();
 
-        if(type.equals("text")){
+        if (type.equals("text")) {
             myHolder.messageTv.setVisibility(View.VISIBLE);
             myHolder.messageIv.setVisibility(View.GONE);
 
             myHolder.messageTv.setText(message);
-        }else{
+        } else {
             myHolder.messageTv.setVisibility(View.GONE);
             myHolder.messageIv.setVisibility(View.VISIBLE);
 
@@ -86,9 +86,9 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
         myHolder.messageTv.setText(message);
         myHolder.timeTv.setText(dateTime);
 
-        try{
+        try {
             Picasso.get().load(imageUrl).into(myHolder.profileIv);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -117,17 +117,16 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
         });
 
         //set seen/delivered status of message
-        if(i==chatList.size()-1){
-            if(chatList.get(i).isSeen()){
+        if (i == chatList.size() - 1) {
+            if (chatList.get(i).isSeen()) {
                 myHolder.isSeenTv.setText("Seen");
-            }
-            else{
+            } else {
                 myHolder.isSeenTv.setText("Delivered");
             }
-        }else{
+        } else {
             myHolder.isSeenTv.setVisibility(View.GONE);
         }
-}
+    }
 
     private void deleteMessage(int position) {
         final String myUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -138,8 +137,8 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    if (ds.child("sender").getValue().equals(myUID)){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if (ds.child("sender").getValue().equals(myUID)) {
                         //there are two ways to delete messages
                         //1) remove the message from chat
                         //ds.getRef().removeValue();
@@ -171,16 +170,15 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.MyHolder>{
     @Override
     public int getItemViewType(int position) {
         fUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(chatList.get(position).getSender().equals(fUser.getUid())){
-            return  MSG_TYPE_RIGHT;
-        }
-        else{
-            return  MSG_TYPE_LEFT;
+        if (chatList.get(position).getSender().equals(fUser.getUid())) {
+            return MSG_TYPE_RIGHT;
+        } else {
+            return MSG_TYPE_LEFT;
         }
     }
 
     //view holder class
-    class MyHolder extends RecyclerView.ViewHolder{
+    class MyHolder extends RecyclerView.ViewHolder {
 
         ImageView profileIv, messageIv;
         TextView messageTv, timeTv, isSeenTv;

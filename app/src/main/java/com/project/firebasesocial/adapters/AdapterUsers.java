@@ -22,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.internal.$Gson$Preconditions;
 import com.project.firebasesocial.ChatActivity;
 import com.project.firebasesocial.R;
 import com.project.firebasesocial.ThereProfileActivity;
@@ -41,18 +40,19 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
     String myUid;
     //Constructor
 
-    public AdapterUsers(Context context, List<ModelUser> usersList){
+    public AdapterUsers(Context context, List<ModelUser> usersList) {
         this.context = context;
         this.usersList = usersList;
         firebaseAuth = FirebaseAuth.getInstance();
         myUid = firebaseAuth.getUid();
     }
+
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         //inflate layout(row_user.xml)
         // com.google.firebase.database.core.view.View
-        View view = LayoutInflater.from(context).inflate(R.layout.row_users, viewGroup, false );
+        View view = LayoutInflater.from(context).inflate(R.layout.row_users, viewGroup, false);
 
         return new MyHolder(view);
     }
@@ -68,13 +68,12 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
         //Set Data
         myHolder.mNameTv.setText(userName);
         myHolder.mEmailTv.setText(userEmail);
-        try{
+        try {
 
             Picasso.get().load(userImage).
                     placeholder(R.drawable.ic_default_img).
                     into(myHolder.mAvatarIv);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -88,13 +87,13 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
                 builder.setItems(new String[]{"Profile", "Chat"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0){
+                        if (which == 0) {
                             //profile clicked
                             Intent intent = new Intent(context, ThereProfileActivity.class);
                             intent.putExtra("uid", hisUid);
                             context.startActivity(intent);
                         }
-                        if (which == 1){
+                        if (which == 1) {
                             //chat clicked
                             imBlockedORNot(hisUid);
                         }
@@ -108,24 +107,25 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
         myHolder.blockIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (usersList.get(i).isBlocked()){
-                        unBlockUser(hisUid);
-                }else {
+                if (usersList.get(i).isBlocked()) {
+                    unBlockUser(hisUid);
+                } else {
                     blockedUser(hisUid);
                 }
             }
         });
 
     }
-    private void imBlockedORNot(final String hisUid){
+
+    private void imBlockedORNot(final String hisUid) {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(hisUid).child("BlockedUsers").orderByChild("uid").equalTo(myUid)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds:dataSnapshot.getChildren()){
-                            if(ds.exists()){
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            if (ds.exists()) {
                                 Toast.makeText(context, "You 're blocked by that user, can't send message", Toast.LENGTH_SHORT).show();
                                 return;
                             }
@@ -149,8 +149,8 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds:dataSnapshot.getChildren()){
-                            if(ds.exists()){
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            if (ds.exists()) {
                                 myHolder.blockIv.setImageResource(R.drawable.ic_blocked_red);
                                 usersList.get(i).setBlocked(true);
 
@@ -169,30 +169,30 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
 
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("uid", hisUid);
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(myUid).child("BlockedUsers").child(hisUid).setValue(hashMap)
-        .addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(context, "Blocked Successfully...", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(context, "Blocked Successfully...", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Failed: "+e.getMessage() , Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void unBlockUser(String hisUid) {
 
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(myUid).child("BlockedUsers").orderByChild("uid").equalTo(hisUid)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds: dataSnapshot.getChildren()){
-                            if(ds.exists()){
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            if (ds.exists()) {
                                 ds.getRef().removeValue()
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -203,7 +203,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(context, "Failed: "+e.getMessage() , Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(context, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
                                             }
                                         });
@@ -224,19 +224,19 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder> {
     }
 
     //View holder class
-     class MyHolder extends RecyclerView.ViewHolder{
+    class MyHolder extends RecyclerView.ViewHolder {
 
         ImageView mAvatarIv, blockIv;
         TextView mNameTv, mEmailTv;
 
-         public MyHolder(@NonNull View itemView) {
+        public MyHolder(@NonNull View itemView) {
             super(itemView);
 
-             //init view
-             mAvatarIv = itemView.findViewById(R.id.avatarIv);
-             blockIv = itemView.findViewById(R.id.blockIv);
-             mNameTv = itemView.findViewById(R.id.nameTv);
-             mEmailTv = itemView.findViewById(R.id.emailTv);
+            //init view
+            mAvatarIv = itemView.findViewById(R.id.avatarIv);
+            blockIv = itemView.findViewById(R.id.blockIv);
+            mNameTv = itemView.findViewById(R.id.nameTv);
+            mEmailTv = itemView.findViewById(R.id.emailTv);
 
         }
 

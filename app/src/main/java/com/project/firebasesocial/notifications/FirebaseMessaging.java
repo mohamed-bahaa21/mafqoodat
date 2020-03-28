@@ -40,33 +40,31 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
 
-
         //get current user from shared preferences
         SharedPreferences sp = getSharedPreferences("SP_USER", MODE_PRIVATE);
         String savedCurrentUser = sp.getString("Current_USERID", "None");
 
         String notificationType = remoteMessage.getData().get("notificationType");
-        if(notificationType.equals("PostNotification")){
+        if (notificationType.equals("PostNotification")) {
             String sender = remoteMessage.getData().get("sender");
             String pId = remoteMessage.getData().get("pId");
             String pTitle = remoteMessage.getData().get("pTitle");
             String pDescription = remoteMessage.getData().get("pDescription");
 
-            if(!sender.equals(savedCurrentUser)){
-                showPostNotification(""+pId, ""+pTitle, ""+pDescription);
+            if (!sender.equals(savedCurrentUser)) {
+                showPostNotification("" + pId, "" + pTitle, "" + pDescription);
             }
 
 
-        }
-        else if (notificationType.equals("ChatNotification")){
+        } else if (notificationType.equals("ChatNotification")) {
 
 
             String sent = remoteMessage.getData().get("sent");
             String user = remoteMessage.getData().get("user");
             FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-            if(fUser != null && sent.equals(fUser.getUid())){
-                if(!savedCurrentUser.equals(user)){
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            if (fUser != null && sent.equals(fUser.getUid())) {
+                if (!savedCurrentUser.equals(user)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         sendOAndAboveNotification(remoteMessage);
                     } else {
                         sendNormalNotification(remoteMessage);
@@ -76,26 +74,26 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         }
     }
 
-    private void showPostNotification(String pId, String pTitle, String pDescription ){
+    private void showPostNotification(String pId, String pTitle, String pDescription) {
 
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         int notificationID = new Random().nextInt(3000);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setupPostNotificationChannel(notificationManager);
         }
 
         Intent intent = new Intent(this, PostDetailActivity.class);
         intent.putExtra("postId", pId);
-        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile_black);
 
         Uri notificationSounUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ""+ADMIN_CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "" + ADMIN_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_profile_black)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(pTitle)
@@ -117,7 +115,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         adminChannel.setLightColor(Color.RED);
         adminChannel.enableVibration(true);
 
-        if(notificationManager != null ){
+        if (notificationManager != null) {
             notificationManager.createNotificationChannel(adminChannel);
 
         }
@@ -147,12 +145,12 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                 .setSound(defSoundUri)
                 .setContentIntent(pIntent);
 
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int j = 0;
-        if(i>0){
-            j=i;
+        if (i > 0) {
+            j = i;
         }
-        notificationManager.notify(j,builder.build());
+        notificationManager.notify(j, builder.build());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -177,10 +175,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         Notification.Builder builder = notification1.getONotifications(title, body, pIntent, defSoundUri, icon);
 
         int j = 0;
-        if(i>0){
-            j=i;
+        if (i > 0) {
+            j = i;
         }
-        notification1.getManager().notify(j,builder.build());
+        notification1.getManager().notify(j, builder.build());
     }
 
     @Override
@@ -188,7 +186,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         super.onNewToken(s);
         //Update user token
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
+        if (user != null) {
             //signed in, update token
             updateToken(s);
         }

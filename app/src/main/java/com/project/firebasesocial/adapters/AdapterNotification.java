@@ -143,7 +143,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 //failed
-                                Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

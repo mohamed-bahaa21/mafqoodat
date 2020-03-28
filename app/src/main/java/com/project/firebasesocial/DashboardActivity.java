@@ -1,17 +1,14 @@
 package com.project.firebasesocial;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,50 +25,12 @@ public class DashboardActivity extends AppCompatActivity {
     ActionBar actionBar;
 
     String mUID;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-
-        //        actionbar title
-        actionBar = getSupportActionBar();
-        actionBar.setTitle("Profile");
-
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        //Bottom Nav
-        BottomNavigationView navigationView = findViewById(R.id.navigation);
-        navigationView.setOnNavigationItemSelectedListener(selectedListener);
-
-        //home fragment transaction (default, on start)
-        actionBar.setTitle("Home"); //change actionbar title
-        HomeFragment fragment1 = new HomeFragment();
-        FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-        ft1.replace(R.id.content, fragment1, "");
-        ft1.commit();
-
-        checkUserStatus();
-    }
-
-    @Override
-    protected void onResume() {
-        checkUserStatus();
-        super.onResume();
-    }
-
-    public void updateToken(String token){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
-        Token mToken = new Token(token);
-        ref.child(mUID).setValue(mToken);
-    }
-
     private BottomNavigationView.OnNavigationItemSelectedListener selectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     // handle item clicks
-                    switch (menuItem.getItemId()){
+                    switch (menuItem.getItemId()) {
                         case R.id.nav_home:
                             //home fragment transaction
                             actionBar.setTitle("Home"); //change actionbar title
@@ -118,9 +77,46 @@ public class DashboardActivity extends AppCompatActivity {
                 }
             };
 
-    private void checkUserStatus(){
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dashboard);
+
+        //        actionbar title
+        actionBar = getSupportActionBar();
+        actionBar.setTitle("Profile");
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        //Bottom Nav
+        BottomNavigationView navigationView = findViewById(R.id.navigation);
+        navigationView.setOnNavigationItemSelectedListener(selectedListener);
+
+        //home fragment transaction (default, on start)
+        actionBar.setTitle("Home"); //change actionbar title
+        HomeFragment fragment1 = new HomeFragment();
+        FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+        ft1.replace(R.id.content, fragment1, "");
+        ft1.commit();
+
+        checkUserStatus();
+    }
+
+    @Override
+    protected void onResume() {
+        checkUserStatus();
+        super.onResume();
+    }
+
+    public void updateToken(String token) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token mToken = new Token(token);
+        ref.child(mUID).setValue(mToken);
+    }
+
+    private void checkUserStatus() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if(user != null){
+        if (user != null) {
             mUID = user.getUid();
             //save uid of currently signed in user in shared preferences
             SharedPreferences sp = getSharedPreferences("SP_USER", MODE_PRIVATE);

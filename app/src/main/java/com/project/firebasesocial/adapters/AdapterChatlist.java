@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.List;
 
-public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHolder>  {
+public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHolder> {
 
     Context context;
     List<ModelUser> userList; //get user info
@@ -56,7 +55,7 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
 //        Toast.makeText(context, "LastMessage: "+lastMessage, Toast.LENGTH_SHORT).show();
 //        lastMessage = "default";
 
-        if (lastMessage == null || lastMessage.equals("default")){
+        if (lastMessage == null || lastMessage.equals("default")) {
             myHolder.lastMessageTv.setVisibility(View.GONE);
         } else {
             myHolder.lastMessageTv.setVisibility(View.VISIBLE);
@@ -71,7 +70,7 @@ public class AdapterChatlist extends RecyclerView.Adapter<AdapterChatlist.MyHold
         }
 
         //set online status of other users in chatlist
-        if (userList.get(i).getOnlineStatus().equals("online")){
+        if (userList.get(i).getOnlineStatus().equals("online")) {
             //online
             myHolder.onlineStatusIv.setImageResource(R.drawable.circle_online);
         } else {

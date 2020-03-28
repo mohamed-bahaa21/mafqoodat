@@ -14,13 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +36,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.ValueEventRegistration;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.firebasesocial.AddPostActivity;
@@ -47,7 +44,6 @@ import com.project.firebasesocial.R;
 import com.project.firebasesocial.ThereProfileActivity;
 import com.project.firebasesocial.models.ModelPost;
 import com.squareup.picasso.Picasso;
-
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,11 +58,9 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
     List<ModelPost> postList;
 
     String myUid;
-
+    boolean mProcessLike = false;
     private DatabaseReference likesRef;
     private DatabaseReference postRef;
-
-    boolean mProcessLike=false;
 
     public AdapterPosts(Context context, List<ModelPost> postList) {
         this.context = context;
@@ -115,17 +109,18 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
 
         try {
             Picasso.get().load(uDp).placeholder(R.drawable.ic_default_img).into(myHolder.uPictureIv);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
 
-        if (pImage.equals("noImage")){
+        if (pImage.equals("noImage")) {
             //hide imageview
             myHolder.pImageIv.setVisibility(View.GONE);
-        }else{
+        } else {
             //show imageview
             myHolder.pImageIv.setVisibility(View.VISIBLE);
             try {
                 Picasso.get().load(pImage).into(myHolder.pImageIv);
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -141,11 +136,11 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         myHolder.shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BitmapDrawable bitmapDrawable = (BitmapDrawable)myHolder.pImageIv.getDrawable();
-                if(bitmapDrawable == null){
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) myHolder.pImageIv.getDrawable();
+                if (bitmapDrawable == null) {
                     //post without image
                     shareTextOnly(pTitle, pDesc);
-                }else {
+                } else {
                     //post with image
                     Bitmap bitmap = bitmapDrawable.getBitmap();
                     shareImageAndText(pTitle, pDesc, bitmap);
@@ -173,21 +168,21 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                 likesRef.orderByChild("pTime").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (mProcessLike){
-                            if (dataSnapshot.child(postIde).hasChild(myUid)){
+                        if (mProcessLike) {
+                            if (dataSnapshot.child(postIde).hasChild(myUid)) {
                                 //already liked so remove likes
                                 Toast.makeText(context, "Remove Like", Toast.LENGTH_SHORT).show();
-                                postRef.child(postIde).child("pLikes").setValue(""+(pLikes-1));
+                                postRef.child(postIde).child("pLikes").setValue("" + (pLikes - 1));
                                 likesRef.child(postIde).child(myUid).removeValue();
                                 mProcessLike = false;
-                            }else{
+                            } else {
                                 //not Liked, Like it
                                 Toast.makeText(context, "Add Like", Toast.LENGTH_SHORT).show();
-                                postRef.child(postIde).child("pLikes").setValue(""+(pLikes+1));
+                                postRef.child(postIde).child("pLikes").setValue("" + (pLikes + 1));
                                 likesRef.child(postIde).child(myUid).setValue("Liked");
                                 mProcessLike = false;
 
-                                addToHisNotifications(""+uid, ""+pId, "Liked Your Post");
+                                addToHisNotifications("" + uid, "" + pId, "Liked Your Post");
                             }
                         }
                     }
@@ -211,7 +206,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         });
     }
 
-    private void addToHisNotifications(String hisUid, String pId, String notification){
+    private void addToHisNotifications(String hisUid, String pId, String notification) {
         String timestamp = "" + System.currentTimeMillis();
 
         HashMap<Object, String> hashMap = new HashMap<>();
@@ -238,7 +233,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
     }
 
     private void shareTextOnly(String pTitle, String pDesc) {
-        String shareBody = pTitle +"\n"+ pDesc;
+        String shareBody = pTitle + "\n" + pDesc;
         Intent sIntent = new Intent(Intent.ACTION_SEND);
         sIntent.setType("text/plain");
         sIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
@@ -247,7 +242,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
     }
 
     private void shareImageAndText(String pTitle, String pDesc, Bitmap bitmap) {
-        String shareBody = pTitle +"\n"+ pDesc;
+        String shareBody = pTitle + "\n" + pDesc;
 
         Uri uri = saveImageToShare(bitmap);
         Intent sIntent = new Intent(Intent.ACTION_SEND);
@@ -261,7 +256,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
     private Uri saveImageToShare(Bitmap bitmap) {
         File imageFolder = new File(context.getCacheDir(), "images");
         Uri uri = null;
-        try{
+        try {
             imageFolder.mkdirs();
             File file = new File(imageFolder, "shared_image.png");
             FileOutputStream stream = new FileOutputStream(file);
@@ -272,9 +267,8 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                     file);
 
 
-
-        }catch (Exception e){
-            Toast.makeText(context, ""+ e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         return uri;
     }
@@ -283,16 +277,17 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         likesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(postKey).hasChild(myUid)){
+                if (dataSnapshot.child(postKey).hasChild(myUid)) {
                     // User has Liked this post
-                    holder.likeBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked  , 0,0,0);
+                    holder.likeBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_liked, 0, 0, 0);
                     holder.likeBtn.setText("Liked");
-                }else{
+                } else {
                     // User has not Liked this post
-                    holder.likeBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_black  , 0,0,0);
+                    holder.likeBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_black, 0, 0, 0);
                     holder.likeBtn.setText("Like");
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -304,7 +299,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         final PopupMenu popupMenu = new PopupMenu(context, moreBtn, Gravity.END);
 
         //show delete option in only post(s) of currently signed-in user
-        if (uid.equals(myUid)){
+        if (uid.equals(myUid)) {
             //add items in menu
             popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete");
             popupMenu.getMenu().add(Menu.NONE, 1, 0, "Edit");
@@ -316,16 +311,16 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 int id = menuItem.getItemId();
-                if (id == 0){
+                if (id == 0) {
                     //delete is clicked
                     beginDelete(pId, pImage);
-                } else if (id == 1){
+                } else if (id == 1) {
                     //edit is clicked
                     Intent intent = new Intent(context, AddPostActivity.class);
                     intent.putExtra("key", "editPost");
                     intent.putExtra("editPostId", pId);
                     context.startActivity(intent);
-                } else if (id == 2){
+                } else if (id == 2) {
                     //start postDetailActivity
                     Intent intent = new Intent(context, PostDetailActivity.class);
                     intent.putExtra("postId", pId);
@@ -340,7 +335,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
 
     private void beginDelete(String pId, String pImage) {
         //post can be with or without image
-        if (pImage.equals("noImage")){
+        if (pImage.equals("noImage")) {
             //post is without image
             deleteWithoutImage(pId);
         } else {
@@ -368,7 +363,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                         fquery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                     ds.getRef().removeValue(); //remove values from firebase where pid matches
                                 }
                                 //deleted
@@ -388,7 +383,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                     public void onFailure(@NonNull Exception e) {
                         //failed cant go further
                         pd.dismiss();
-                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -403,7 +398,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         fquery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ds.getRef().removeValue(); //remove values from firebase where pid matches
                 }
                 //deleted
@@ -423,7 +418,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         return postList.size();
     }
 
-    class MyHolder extends RecyclerView.ViewHolder{
+    class MyHolder extends RecyclerView.ViewHolder {
 
         ImageView uPictureIv, pImageIv;
         TextView uNameTv, pTimeTv, pTitleTv, pDescriptionTv, pLikesTv, pCommentsTv;

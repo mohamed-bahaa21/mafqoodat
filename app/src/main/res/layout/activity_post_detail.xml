@@ -7,9 +7,9 @@
     tools:context=".PostDetailActivity">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_above="@+id/commentsLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/commentsLayout">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -20,11 +20,11 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="0dp"
-                app:contentPadding="5dp"
                 app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white">
+                app:contentPadding="5dp">
 
 
                 <LinearLayout
@@ -36,36 +36,37 @@
                         android:id="@+id/profileLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
                             android:id="@+id/uPictureIv"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_default_img"
                             android:layout_width="50dp"
-                            android:layout_height="50dp" />
+                            android:layout_height="50dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_default_img" />
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
+                            android:layout_marginLeft="8dp"
                             android:layout_weight="1"
-                            android:layout_marginLeft="8dp">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/uNameTv"
-                                android:text="Name"
-                                android:textColor="@color/black"
-                                android:textSize="18sp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                            <TextView
-                                android:id="@+id/pTimeTv"
-                                android:text="18 min"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="12sp"/>
+                                android:text="Name"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/pTimeTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="18 min"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -74,7 +75,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:src="@drawable/ic_more_black"/>
+                            android:src="@drawable/ic_more_black" />
 
                     </LinearLayout>
 
@@ -82,90 +83,90 @@
                         android:id="@+id/pTitleTv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="Title"
+                        android:layout_marginTop="8dp"
                         android:autoLink="all"
-                        android:layout_marginTop="8dp"/>
+                        android:text="Title"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/pDescriptionTv"
-                        android:text="The decription of the post"
-                        android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:autoLink="all"
-                        android:layout_marginTop="8dp"/>
+                        android:text="The decription of the post"
+                        android:textColor="@color/black" />
 
                     <ImageView
                         android:id="@+id/pImageIv"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:background="@color/white"
-                        android:layout_marginTop="8dp"/>
-                    
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/pLikesTv"
-                            android:text="1.2 Likes"
-                            android:layout_weight="1"
-                            android:textColor="@color/colorPrimary"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1.2 Likes"
+                            android:textColor="@color/colorPrimary" />
 
                         <TextView
                             android:id="@+id/pCommentsTv"
-                            android:text="1.2k Comments"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/colorPrimary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="end" />
+                            android:gravity="end"
+                            android:text="1.2k Comments"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorPrimary" />
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:background="#FF9205"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp"
+                        android:background="#FF9205" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="left">
+                        android:gravity="left"
+                        android:orientation="horizontal">
 
                         <Button
                             android:id="@+id/likeBtn"
+                            style="?android:attr/borderlessButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
-                            android:text="Like"
-                            android:textSize="12sp"
                             android:background="@color/white"
                             android:drawableLeft="@drawable/ic_like_black"
                             android:drawablePadding="5dp"
-                            style="?android:attr/borderlessButtonStyle"/>
+                            android:text="Like"
+                            android:textSize="12sp" />
 
                         <Button
                             android:id="@+id/shareBtn"
+                            style="?android:attr/borderlessButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
                             android:layout_weight="0"
-                            android:text="SHARE"
-                            android:textSize="12sp"
                             android:background="@color/white"
+                            android:drawableStart="@drawable/ic_share_black"
                             android:drawableLeft="@drawable/ic_share_black"
                             android:drawablePadding="5dp"
-                            android:drawableStart="@drawable/ic_share_black"
-                            android:layout_marginLeft="8dp"
-                            style="?android:attr/borderlessButtonStyle"/>
+                            android:text="SHARE"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -176,19 +177,19 @@
             <!-- List of comments here: will do in next part -->
 
             <TextView
-                android:text="Comments"
-                android:textColor="@color/black"
-                android:drawablePadding="5dp"
-                android:padding="20dp"
-                android:drawableStart="@drawable/ic_comments_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_comments_black" />
+                android:drawableStart="@drawable/ic_comments_black"
+                android:drawableLeft="@drawable/ic_comments_black"
+                android:drawablePadding="5dp"
+                android:padding="20dp"
+                android:text="Comments"
+                android:textColor="@color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -199,34 +200,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
+
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:id="@+id/cAvatarIv"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_default_img"/>
+            android:src="@drawable/ic_default_img" />
+
         <EditText
             android:id="@+id/commentEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_margin="1dp"
-            android:layout_toEndOf="@id/cAvatarIv"
-            android:layout_toRightOf="@id/cAvatarIv"
             android:layout_toStartOf="@id/sendBtn"
             android:layout_toLeftOf="@id/sendBtn"
+            android:layout_toEndOf="@id/cAvatarIv"
+            android:layout_toRightOf="@id/cAvatarIv"
             android:background="@color/white"
-            android:padding="10dp"
-            android:layout_centerVertical="true"
             android:hint="Enter Comment"
-            android:inputType="textCapSentences|textMultiLine"/>
+            android:inputType="textCapSentences|textMultiLine"
+            android:padding="10dp" />
+
         <ImageButton
             android:id="@+id/sendBtn"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_send"
-            android:layout_centerVertical="true"
-            android:background="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:src="@drawable/ic_send" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".LoginActivity"
+    android:gravity="center"
     android:orientation="vertical"
-    android:gravity="center">
+    tools:context=".LoginActivity">
 
     <ImageView
         android:layout_width="110dp"
@@ -22,26 +22,26 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailTIL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         app:passwordToggleEnabled="true"
-        tools:ignore="MissingConstraints"
-        android:layout_marginTop="32dp">
+        tools:ignore="MissingConstraints">
 
         <EditText
+            android:id="@+id/emailEt"
             android:layout_width="245dp"
             android:layout_height="45dp"
-            android:id="@+id/emailEt"
-            android:inputType="textEmailAddress"
-            android:hint="Email"
             android:background="#F6F6F6"
             android:drawableLeft="@drawable/username"
             android:drawablePadding="10dp"
             android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             android:padding="10dp"
             android:textColor="#000000"
             android:textColorHint="#000000"
@@ -57,16 +57,16 @@
         tools:ignore="MissingConstraints">
 
         <EditText
+            android:id="@+id/passwordEt"
             android:layout_width="245dp"
             android:layout_height="45dp"
-            android:id="@+id/passwordEt"
-            android:inputType="textPassword"
-            android:hint="Password"
             android:layout_marginTop="8dp"
             android:background="#F6F6F6"
             android:drawableLeft="@drawable/password"
             android:drawablePadding="10dp"
             android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="#000000"
             android:textColorHint="#000000"
@@ -77,31 +77,31 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center"
+        android:layout_marginTop="32dp"
         android:gravity="center"
-        android:layout_marginTop="32dp">
+        android:orientation="vertical">
 
         <Button
+            android:id="@+id/loginBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
             android:layout_below="@id/passwordTIL"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
             android:layout_centerHorizontal="true"
-            android:id="@+id/loginBtn"/>
+            android:background="@color/colorPrimary"
+            android:text="Login"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/recoverPassTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/loginBtn"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:singleLine="true"
             android:text="Forgot Password? Recover"
-            android:layout_below="@id/loginBtn"
-            android:textColor="@color/black"
-            android:layout_marginTop="8dp"/>
+            android:textColor="@color/black" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/googleLoginBtn"
@@ -117,13 +117,12 @@
             android:id="@+id/nothave_accountTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="Not have account? Register"
-            android:gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="16dp"
-            android:textColor="@color/black"
-            />
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Not have account? Register"
+            android:textColor="@color/black" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -144,7 +143,7 @@
 </LinearLayout>
 
 
-<!-- Old Login -->
+    <!-- Old Login -->
     <!--<?xml version="1.0" encoding="utf-8"?>-->
     <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->

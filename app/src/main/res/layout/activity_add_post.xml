@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddPostActivity"
-    android:background="#00F6F6F6">
+    android:background="#00F6F6F6"
+    tools:context=".AddPostActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,64 +15,64 @@
 
         <EditText
             android:id="@+id/pTitleEt"
-            android:background="@drawable/edittextstyle"
-            android:padding="10dp"
-            android:hint="Enter Title"
-            android:singleLine="true"
-            android:layout_margin="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/edittextstyle"
+            android:hint="Enter Title"
+            android:padding="10dp"
+            android:singleLine="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:layout_margin="8dp">
+            android:padding="8dp">
 
-        <TextView
-            android:id="@+id/pUploadImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:background="@color/white"
-            android:padding="8dp"
-            android:gravity="center"
-            android:text="Upload Image"
-            android:drawableLeft="@drawable/ic_upload"/>
+            <TextView
+                android:id="@+id/pUploadImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/ic_upload"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Upload Image"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/pImageIv"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:minHeight="200dp"/>
+            <ImageView
+                android:id="@+id/pImageIv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:minHeight="200dp" />
 
         </LinearLayout>
 
         <EditText
-            android:layout_margin="8dp"
             android:id="@+id/pDescEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:background="@drawable/edittextstyle"
-            android:padding="10dp"
+            android:gravity="start"
             android:hint="Enter Description"
             android:inputType="textCapSentences|textMultiLine"
             android:minHeight="120dp"
-            android:gravity="start"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:padding="10dp" />
 
         <Button
-            android:layout_margin="8dp"
             android:id="@+id/pUploadBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:background="@color/colorPrimary"
             android:text="Publish"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
