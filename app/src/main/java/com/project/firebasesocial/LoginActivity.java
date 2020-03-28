@@ -239,7 +239,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -254,15 +253,17 @@ public class LoginActivity extends AppCompatActivity {
                         // get user email & uid from auth
                         String email = user.getEmail();
                         String uid = user.getUid();
+                        String name = user.getDisplayName();
+                        String phone = user.getPhoneNumber();
                         //when user is registered store user info in firebase realtime database too using hashmap
                         HashMap<Object, String> hashMap = new HashMap<>();
                         // put info in hashmap
                         hashMap.put("email", email);
                         hashMap.put("uid", uid);
-                        hashMap.put("name", ""); // will add later (e.g. edit profile)
+                        hashMap.put("name", name); // will add later (e.g. edit profile)
                         hashMap.put("onlineStatus", "online"); // will add later (e.g. edit profile)
                         hashMap.put("typingTo", "noOne"); // will add later (e.g. edit profile)
-                        hashMap.put("phone", ""); // will add later (e.g. edit profile)
+                        hashMap.put("phone", phone); // will add later (e.g. edit profile)
                         hashMap.put("image", ""); // will add later (e.g. edit profile)
                         hashMap.put("cover", ""); // will add later (e.g. edit profile)
 

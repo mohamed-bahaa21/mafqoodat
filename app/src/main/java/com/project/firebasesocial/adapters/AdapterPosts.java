@@ -52,6 +52,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -85,7 +86,6 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder myHolder, final int i) {
-
         final String uid = postList.get(i).getUid();
         String email = postList.get(i).getEmail();
         String name = postList.get(i).getName();
@@ -98,6 +98,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         String pLikes = postList.get(i).getpLikes(); //Contain number of likes for a post
         String pComments = postList.get(i).getpComments(); //Contain number of likes for a post
 
+        //convert timestamp to dd/mm/yy hh:mm am/pm
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.setTimeInMillis(Long.parseLong(pTimestamp));
         final String pTime = DateFormat.format("dd/MM/yyy hh:mm aa", calendar).toString();
@@ -114,9 +115,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
 
         try {
             Picasso.get().load(uDp).placeholder(R.drawable.ic_default_img).into(myHolder.uPictureIv);
-        }catch (Exception e){
-
-        }
+        }catch (Exception e){}
 
         if (pImage.equals("noImage")){
             //hide imageview
@@ -142,7 +141,6 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         myHolder.shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 BitmapDrawable bitmapDrawable = (BitmapDrawable)myHolder.pImageIv.getDrawable();
                 if(bitmapDrawable == null){
                     //post without image
@@ -188,6 +186,8 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                                 postRef.child(postIde).child("pLikes").setValue(""+(pLikes+1));
                                 likesRef.child(postIde).child(myUid).setValue("Liked");
                                 mProcessLike = false;
+
+                                addToHisNotifications(""+uid, ""+pId, "Liked Your Post");
                             }
                         }
                     }
@@ -209,6 +209,32 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                 context.startActivity(intent);
             }
         });
+    }
+
+    private void addToHisNotifications(String hisUid, String pId, String notification){
+        String timestamp = "" + System.currentTimeMillis();
+
+        HashMap<Object, String> hashMap = new HashMap<>();
+        hashMap.put("pId", pId);
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("pUid", hisUid);
+        hashMap.put("notification", notification);
+        hashMap.put("sUid", myUid);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(hisUid).child("Notifications").child(timestamp).setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //add successfully
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed
+                    }
+                });
     }
 
     private void shareTextOnly(String pTitle, String pDesc) {
